@@ -10,3 +10,12 @@ Built as two single-file pages for Claude Artifacts. Run `python3 build.py` to r
 - `data/site.json`: menu and site info snapshot (includes bank details and the QRIS image id, which only works inside the original artifact).
 
 The pages rely on the Artifact runtime (`window.claude`: assets, artifact, db, downloads), so they only save and load orders when published as Artifacts.
+
+## Deploy to Cloudflare
+
+The static site is in `public/` (`index.html` is the shop page, `site.json` its content). `wrangler.jsonc` points Workers static assets at it.
+
+- Workers: `npx wrangler deploy`
+- Pages: leave the build command empty and set the build output directory to `public`.
+
+Outside Claude Artifacts the shop page shows the menu, cart, WhatsApp ordering and invoice PDF, but the owner editor, saved photos and the QRIS image do not work, because they depend on the Artifact runtime. Edit `data/site.json` (menu text, prices, bank details), run `python3 build.py` and redeploy to change the content. Use the Artifact version for photos and QRIS.
