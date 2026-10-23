@@ -2,7 +2,7 @@
 
 Bakery website for Baked By Zav: a menu with up to 3 photos per item, a customer cart with per-item notes, bank and QRIS payment details, an invoice PDF, and a private orders page with sales reports.
 
-Built as two single-file pages for Claude Artifacts.
+Built as two single-file pages for Claude Artifacts. Run `python3 build.py` to rebuild `build/` from `src/` and `data/`.
 
 - `build/shop.html`: customer site, with its owner-only editor at `#admin`.
 - `build/orders.html`: private order book and reports.
