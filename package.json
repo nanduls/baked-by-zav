@@ -1,0 +1,11 @@
+{
+  "name": "baked-by-zav",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "python3 build.py",
+    "dev": "npm run build && wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "test": "node tests/e2e.mjs"
+  }
+}

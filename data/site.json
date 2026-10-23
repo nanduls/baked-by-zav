@@ -1,6 +1,6 @@
 {
  "info": {
-  "eyebrow": "Artisan bakery · Jakarta",
+  "eyebrow": "Artisan bakery · Bekasi",
   "tagline": "Slow-fermented bread, fine pastry and cakes made to order.",
   "hours": "07:00 – 11:00",
   "reserveBy": "20:00 the evening before",
@@ -18,8 +18,8 @@
   "bankName": "",
   "bankNumber": "",
   "bankHolder": "",
-  "qris": "38c24ee282de3d880fe3331ef36f8595",
-  "payNote": "SCAN BARCODE QRIS"
+  "qris": "",
+  "payNote": ""
  },
  "menu": [
   {
@@ -31,9 +31,7 @@
    "note": "House favourite",
    "featured": true,
    "art": "sourdough",
-   "photos": [
-    "8b4af4b37cf6427d3e7c6186fe261b0c"
-   ]
+   "photos": []
   },
   {
    "id": "i2",
@@ -44,9 +42,7 @@
    "note": "",
    "featured": false,
    "art": "rye",
-   "photos": [
-    "04daabaee576bbaf9b50e49e23eae0d3"
-   ]
+   "photos": []
   },
   {
    "id": "i3",
@@ -57,9 +53,7 @@
    "note": "",
    "featured": false,
    "art": "buns",
-   "photos": [
-    "897c3827bc691e8ac51861045b3b9279"
-   ]
+   "photos": []
   },
   {
    "id": "i4",
@@ -70,9 +64,7 @@
    "note": "",
    "featured": false,
    "art": "focaccia",
-   "photos": [
-    "6fe98c76db2023b23f288546a9fea256"
-   ]
+   "photos": []
   },
   {
    "id": "i5",
@@ -83,9 +75,7 @@
    "note": "Sells out first",
    "featured": true,
    "art": "croissant",
-   "photos": [
-    "b966c157b3212bffb3f97c9717b9e4c4"
-   ]
+   "photos": []
   },
   {
    "id": "i6",
