@@ -8,6 +8,6 @@
     "run_worker_first": ["/api/*", "/site.json", "/_blob/*"]
   },
   "kv_namespaces": [
-    { "binding": "ZAV" }
+    { "binding": "ZAV", "id": "69f46e03591744ec8d6a59b2a367068e" }
   ]
 }
