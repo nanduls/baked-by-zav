@@ -1,0 +1,201 @@
+{
+ "info": {
+  "eyebrow": "Artisan bakery · Jakarta",
+  "tagline": "Slow-fermented bread, fine pastry and cakes made to order.",
+  "hours": "07:00 – 11:00",
+  "reserveBy": "20:00 the evening before",
+  "cakeLead": "Three days ahead",
+  "statement": "One jar of starter, one borrowed oven, and a rule that has not changed: bake *small batches*, use real butter, and never sell yesterday's bread.",
+  "about1": "Zav began baking at home for friends. The bread was fermented slowly for flavor, and the pastry was laminated by hand, one fold at a time.",
+  "about2": "Today every loaf, croissant and cake is still made in limited quantity and baked the same morning it is collected.",
+  "order1": "Bread and pastries are baked to a daily count. Message by 20:00 the evening before to reserve for the next morning.",
+  "order2": "Custom cakes need three days. Share the size, flavor and date, and Zav will confirm the price.",
+  "whatsapp": "+628999081500",
+  "instagram": "bakedbyzav",
+  "pickup": "Rawalumbu, Kota Bekasi",
+  "menuNote": "Menu, prices and pictures are sample content. Replace them with your own before sharing.",
+  "footer": "Baked fresh, in small batches.",
+  "bankName": "BCA",
+  "bankNumber": "0552002541",
+  "bankHolder": "NANDA PRATAMA SUDEWO",
+  "qris": "38c24ee282de3d880fe3331ef36f8595",
+  "payNote": "SCAN BARCODE QRIS"
+ },
+ "menu": [
+  {
+   "id": "i1",
+   "cat": "Bread",
+   "name": "Country Sourdough",
+   "price": 75000,
+   "desc": "850 g. Eighteen hour ferment, blistered crust, open crumb.",
+   "note": "House favourite",
+   "featured": true,
+   "art": "sourdough",
+   "photos": [
+    "8b4af4b37cf6427d3e7c6186fe261b0c"
+   ]
+  },
+  {
+   "id": "i2",
+   "cat": "Bread",
+   "name": "Seeded Rye",
+   "price": 80000,
+   "desc": "700 g. Sunflower, flax and sesame in a moist crumb.",
+   "note": "",
+   "featured": false,
+   "art": "rye",
+   "photos": [
+    "04daabaee576bbaf9b50e49e23eae0d3"
+   ]
+  },
+  {
+   "id": "i3",
+   "cat": "Bread",
+   "name": "Milk Bun",
+   "price": 38000,
+   "desc": "Pack of four. Soft and lightly sweet.",
+   "note": "",
+   "featured": false,
+   "art": "buns",
+   "photos": [
+    "897c3827bc691e8ac51861045b3b9279"
+   ]
+  },
+  {
+   "id": "i4",
+   "cat": "Bread",
+   "name": "Cheese Focaccia",
+   "price": 55000,
+   "desc": "Half tray. Olive oil, sea salt and melted cheddar.",
+   "note": "",
+   "featured": false,
+   "art": "focaccia",
+   "photos": [
+    "6fe98c76db2023b23f288546a9fea256"
+   ]
+  },
+  {
+   "id": "i5",
+   "cat": "Pastry",
+   "name": "Butter Croissant",
+   "price": 32000,
+   "desc": "Honeycomb layers from a 24 hour dough.",
+   "note": "Sells out first",
+   "featured": true,
+   "art": "croissant",
+   "photos": [
+    "b966c157b3212bffb3f97c9717b9e4c4"
+   ]
+  },
+  {
+   "id": "i6",
+   "cat": "Pastry",
+   "name": "Pain au Chocolat",
+   "price": 36000,
+   "desc": "Two bars of dark chocolate in laminated dough.",
+   "note": "",
+   "featured": false,
+   "art": "painchoc",
+   "photos": []
+  },
+  {
+   "id": "i7",
+   "cat": "Pastry",
+   "name": "Almond Croissant",
+   "price": 42000,
+   "desc": "Twice baked with frangipane and toasted almonds.",
+   "note": "",
+   "featured": false,
+   "art": "almond",
+   "photos": []
+  },
+  {
+   "id": "i8",
+   "cat": "Pastry",
+   "name": "Cinnamon Roll",
+   "price": 35000,
+   "desc": "Brown sugar swirl with cream cheese glaze.",
+   "note": "",
+   "featured": false,
+   "art": "roll",
+   "photos": []
+  },
+  {
+   "id": "i9",
+   "cat": "Cakes",
+   "name": "Basque Cheesecake",
+   "price": 220000,
+   "desc": "16 cm. Burnt top, custard center. Serves six to eight.",
+   "note": "Two days ahead",
+   "featured": true,
+   "art": "cheesecake",
+   "photos": []
+  },
+  {
+   "id": "i10",
+   "cat": "Cakes",
+   "name": "Dark Chocolate Cake",
+   "price": 285000,
+   "desc": "18 cm. Three layers, 70% cocoa ganache. Serves eight to ten.",
+   "note": "Three days ahead",
+   "featured": false,
+   "art": "cake",
+   "photos": []
+  },
+  {
+   "id": "i11",
+   "cat": "Cakes",
+   "name": "Pandan Banana Bread",
+   "price": 68000,
+   "desc": "600 g loaf with coconut crumble.",
+   "note": "",
+   "featured": false,
+   "art": "banana",
+   "photos": []
+  },
+  {
+   "id": "i12",
+   "cat": "Cakes",
+   "name": "Brownie Box",
+   "price": 90000,
+   "desc": "Six pieces. Fudgy center, crackled top, sea salt.",
+   "note": "",
+   "featured": false,
+   "art": "brownie",
+   "photos": []
+  },
+  {
+   "id": "i13",
+   "cat": "Drinks",
+   "name": "Iced Palm Sugar Latte",
+   "price": 30000,
+   "desc": "Double espresso, fresh milk, palm sugar syrup.",
+   "note": "",
+   "featured": false,
+   "art": "latte",
+   "photos": []
+  },
+  {
+   "id": "i14",
+   "cat": "Drinks",
+   "name": "Jasmine Tea",
+   "price": 25000,
+   "desc": "A pot for sharing.",
+   "note": "",
+   "featured": false,
+   "art": "tea",
+   "photos": []
+  },
+  {
+   "id": "nmvhrds9i",
+   "cat": "Cakes",
+   "name": "Black Forest Cakaes",
+   "price": 500000,
+   "desc": "",
+   "note": "",
+   "featured": false,
+   "art": "generic",
+   "photos": []
+  }
+ ]
+}

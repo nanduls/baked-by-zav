@@ -1,0 +1,637 @@
+<title>Baked By Zav Orders</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Jost:wght@300;400;500&display=swap">
+<style>
+/* Layout: a working ledger for the baker. Sticky bar, two views (orders, report), one shared period filter, order cards sized for a phone. Same dark green and gold as the shop page, single dark theme on purpose. */
+:root {
+  color-scheme: dark;
+  --bg: #0E1713;
+  --surface: #13201A;
+  --raise: #192A22;
+  --fg: #F1EBDD;
+  --muted: #A7AE9F;
+  --gold: #D4AF37;
+  --on-gold: #0E1713;
+  --ok: #8FCBA2;
+  --bad: #E59A8C;
+  --line: rgba(212, 175, 55, 0.34);
+  --line-soft: rgba(241, 235, 221, 0.14);
+  --font-display: "Bodoni Moda", "Didot", Georgia, serif;
+  --font-body: "Jost", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--bg); }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 300 16px/1.6 var(--font-body);
+  padding-block: 0 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap { max-width: 980px; margin: 0 auto; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; margin: 0; text-wrap: balance; }
+.caps { font-size: 11.5px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.num { font-variant-numeric: tabular-nums; }
+
+header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--bg); border-bottom: 1px solid var(--line-soft); }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 24px; padding-block: 12px; }
+.bar h1 { font-size: 26px; line-height: 1.1; }
+.bar h1 em { color: var(--gold); }
+.tabs { display: flex; gap: 22px; padding-bottom: 0; }
+.tab { font: 400 12px var(--font-body); letter-spacing: 0.2em; text-transform: uppercase; background: none; border: 0; border-bottom: 1px solid transparent; color: var(--muted); padding: 8px 0; cursor: pointer; }
+.tab[aria-pressed="true"] { color: var(--gold); border-bottom-color: var(--gold); }
+.link { font: 400 12px var(--font-body); letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px; background: none; border-top: 0; border-left: 0; border-right: 0; cursor: pointer; }
+.link:hover { color: var(--fg); border-color: var(--fg); }
+.link.danger { color: var(--bad); border-color: var(--bad); }
+.link:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn { font: 500 12.5px var(--font-body); letter-spacing: 0.18em; text-transform: uppercase; padding: 12px 22px; border: 1px solid var(--gold); background: var(--gold); color: var(--on-gold); cursor: pointer; }
+.btn.ghost { background: transparent; color: var(--gold); }
+.btn:hover { filter: brightness(1.08); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
+
+.gate { padding-block: 64px; max-width: 46ch; }
+.gate p { color: var(--muted); }
+.status { margin: 16px 0 0; padding: 10px 14px; border: 1px solid var(--line); font-size: 15px; }
+.status[data-kind="error"] { border-color: var(--bad); color: var(--bad); }
+
+.toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 18px; padding-block: 20px 8px; }
+.fld { display: grid; gap: 6px; min-width: 0; align-content: start; }
+.fld.grow { flex: 1 1 200px; }
+input[type="text"], input[type="number"], input[type="date"], select, textarea {
+  font: 300 16px/1.4 var(--font-body); color: var(--fg); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 0; padding: 9px 11px; width: 100%; min-width: 0;
+}
+textarea { resize: vertical; min-height: 84px; }
+select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--gold) 50%), linear-gradient(135deg, var(--gold) 50%, transparent 50%); background-position: calc(100% - 17px) 55%, calc(100% - 12px) 55%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 8px 4px; }
+.chip { font: 400 12px var(--font-body); letter-spacing: 0.14em; text-transform: uppercase; background: none; color: var(--muted); border: 1px solid var(--line-soft); padding: 6px 12px; cursor: pointer; }
+.chip[aria-pressed="true"] { color: var(--on-gold); background: var(--gold); border-color: var(--gold); }
+.chip .n { opacity: 0.75; margin-left: 6px; }
+
+.panel { border: 1px solid var(--line); background: var(--surface); padding: 18px; margin-top: 18px; display: grid; gap: 16px; }
+.panel h2 { font-size: 24px; }
+.panel > p { margin: 0; color: var(--muted); font-size: 15px; max-width: 62ch; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+.items-edit { display: grid; gap: 12px; }
+.it { display: grid; grid-template-columns: 70px minmax(0, 1fr) 150px; gap: 10px; padding: 12px; border: 1px solid var(--line-soft); background: var(--bg); }
+.it .note { grid-column: 1 / -1; }
+.it .rm { grid-column: 1 / -1; justify-self: start; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.sum { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-top: 6px; border-top: 1px solid var(--line-soft); }
+.sum strong { font-family: var(--font-display); font-weight: 400; font-size: 28px; color: var(--gold); }
+.warn { color: var(--gold); font-size: 14px; margin: 0; }
+
+.orders { display: grid; gap: 14px; padding-top: 18px; }
+.order { border: 1px solid var(--line-soft); background: var(--surface); padding: 16px 18px; display: grid; gap: 10px; min-width: 0; border-left: 3px solid var(--line); }
+.order[data-s="paid"] { border-left-color: var(--ok); }
+.order[data-s="done"] { border-left-color: var(--muted); }
+.order[data-s="cancelled"] { border-left-color: var(--bad); opacity: 0.72; }
+.o-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+.o-name { font-family: var(--font-display); font-size: 22px; line-height: 1.2; overflow-wrap: anywhere; }
+.o-total { font-weight: 500; color: var(--gold); font-size: 18px; }
+.o-meta { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 14px; color: var(--muted); }
+.o-items { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.o-items li { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 8px; font-size: 15px; }
+.o-items .q { color: var(--gold); }
+.o-items .nt { grid-column: 2 / -1; font-size: 13.5px; color: var(--muted); font-style: italic; }
+.o-notes { font-size: 14px; color: var(--muted); margin: 0; }
+.o-foot { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 18px; }
+.o-foot .fld { width: 170px; }
+.pill { display: inline-block; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; padding: 2px 9px; border: 1px solid var(--line); color: var(--gold); }
+.empty { padding: 40px 0; color: var(--muted); max-width: 52ch; }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; padding-top: 18px; }
+.tile { border: 1px solid var(--line-soft); background: var(--surface); padding: 14px 16px; display: grid; gap: 2px; }
+.tile .v { font-family: var(--font-display); font-size: 27px; line-height: 1.15; overflow-wrap: anywhere; }
+.tile.main .v { color: var(--gold); }
+.blocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; padding-top: 18px; }
+.block { border: 1px solid var(--line-soft); background: var(--surface); padding: 16px 18px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.block h3 { font-size: 22px; font-style: italic; color: var(--gold); }
+.bars { display: grid; gap: 10px; }
+.bar-row { display: grid; gap: 3px; font-size: 14.5px; }
+.bar-row .l { display: flex; justify-content: space-between; gap: 12px; }
+.bar-row .l span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.track { height: 8px; background: var(--bg); border: 1px solid var(--line-soft); }
+.fill { height: 100%; background: var(--gold); }
+.fill.ok { background: var(--ok); }
+.hint { margin: 0; font-size: 13.5px; color: var(--muted); }
+.export { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 18px; }
+
+@media (max-width: 520px) {
+  .it { grid-template-columns: 64px minmax(0, 1fr); }
+  .it .amt { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+
+<header>
+  <div class="wrap bar">
+    <h1>Baked by Zav <em>orders</em></h1>
+    <div class="tabs" role="group" aria-label="View" id="tabs">
+      <button class="tab" type="button" data-v="orders" aria-pressed="true">Orders</button>
+      <button class="tab" type="button" data-v="report" aria-pressed="false">Report</button>
+    </div>
+    <a class="link" id="site-link" href="https://claude.ai/artifact/DhNxwGDimJ3UxAGZgj28sf#admin" target="_blank" rel="noopener noreferrer">Edit menu and site</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="gate" id="gate">
+    <h2>Checking access</h2>
+    <p>This page is for Zav only. It keeps customer names and orders private.</p>
+  </div>
+
+  <div id="app" hidden>
+    <p class="status" id="status" role="status" hidden></p>
+
+    <div id="v-orders">
+      <div class="panel" id="add-panel" hidden>
+        <h2 id="form-title">Add an order</h2>
+        <div id="paste-box" class="fld">
+          <label class="caps" for="paste">Paste the WhatsApp order message</label>
+          <textarea id="paste" rows="6" placeholder="Hello Zav, I'd like to order:&#10;&#10;1 × Country Sourdough (Rp 75.000)&#10;   Note: sliced thin&#10;&#10;Total: Rp 75.000&#10;&#10;Name: Rina&#10;Pick-up date: Friday, 23 October 2026"></textarea>
+          <p class="hint">Copy the message from WhatsApp and paste it here. The name, items, notes, total, pick-up date and payment are filled in below for you to check.</p>
+          <div class="actions"><button class="btn ghost" id="read" type="button">Read message</button></div>
+        </div>
+        <div id="form" hidden>
+          <div class="row">
+            <div class="fld"><label class="caps" for="f-name">Customer</label><input type="text" id="f-name" autocomplete="off"></div>
+            <div class="fld"><label class="caps" for="f-date">Pick-up date</label><input type="date" id="f-date"></div>
+            <div class="fld"><label class="caps" for="f-pay">Payment</label>
+              <select id="f-pay"><option value="">Not stated</option><option value="bank">Bank transfer</option><option value="qris">QRIS</option><option value="cash">Cash</option></select></div>
+            <div class="fld"><label class="caps" for="f-status">Status</label>
+              <select id="f-status"><option value="new">New</option><option value="paid">Paid</option><option value="done">Picked up</option><option value="cancelled">Cancelled</option></select></div>
+          </div>
+          <div class="items-edit" id="f-items"></div>
+          <div class="actions"><button class="link" id="add-item" type="button">Add item</button></div>
+          <div class="fld"><label class="caps" for="f-notes">Notes for the whole order</label><textarea id="f-notes" rows="2"></textarea></div>
+          <div class="sum"><span class="caps">Total</span><strong class="num" id="f-total">Rp 0</strong></div>
+          <p class="warn" id="f-warn" hidden></p>
+          <div class="actions"><button class="btn" id="save" type="button">Save order</button><button class="link" id="cancel" type="button">Cancel</button></div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="fld"><label class="caps" for="period">Period</label>
+          <select id="period"></select></div>
+        <div class="fld" id="custom" hidden><label class="caps" for="from">From</label><input type="date" id="from"></div>
+        <div class="fld" id="custom2" hidden><label class="caps" for="to">To</label><input type="date" id="to"></div>
+        <div class="fld grow"><label class="caps" for="q">Search</label><input type="text" id="q" placeholder="Customer or item" autocomplete="off"></div>
+        <button class="btn" id="open-add" type="button">Add order</button>
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="Filter by status"></div>
+      <div class="orders" id="orders"></div>
+    </div>
+
+    <div id="v-report" hidden>
+      <div class="toolbar">
+        <div class="fld"><label class="caps" for="period2">Period</label><select id="period2"></select></div>
+        <div class="fld" id="custom-r" hidden><label class="caps" for="from2">From</label><input type="date" id="from2"></div>
+        <div class="fld" id="custom-r2" hidden><label class="caps" for="to2">To</label><input type="date" id="to2"></div>
+      </div>
+      <p class="hint">Cancelled orders are left out. Dates are pick-up dates.</p>
+      <div id="report"></div>
+      <div class="export" id="export">
+        <button class="btn" id="dl-pdf" type="button">Download report (PDF)</button>
+        <button class="btn ghost" id="dl-csv" type="button">Download orders (CSV)</button>
+      </div>
+      <p class="hint" id="dl-msg" role="status"></p>
+    </div>
+  </div>
+</main>
+
+<script>/*MINIPDF*/</script>
+<script>
+(function () {
+  var db = null, downloads = null, ready = false;
+  var orders = [];
+  var view = "orders", period = "all", from = "", to = "", status = "all", q = "";
+  var editing = null;          // order id being edited, or "" for a new one
+  var form = null;             // working copy for the form
+  var STATUS = { new: "New", paid: "Paid", done: "Picked up", cancelled: "Cancelled" };
+  var PAY = { bank: "Bank transfer", qris: "QRIS", cash: "Cash", "": "Not stated" };
+
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null && text !== "") e.textContent = text; return e; }
+  function rp(n) { return "Rp " + Number(n || 0).toLocaleString("id-ID"); }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function ymd(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function today() { return ymd(new Date()); }
+  function fmtDate(iso, long) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(iso || "")) return "No date";
+    try { return new Date(iso + "T00:00:00").toLocaleDateString("en-GB", long ? { weekday: "long", day: "numeric", month: "long", year: "numeric" } : { weekday: "short", day: "numeric", month: "short", year: "numeric" }); } catch (e) { return iso; }
+  }
+  function setStatus(t, kind) { var s = $("status"); s.textContent = t || ""; s.hidden = !t; s.setAttribute("data-kind", kind || "info"); }
+  function oDate(o) { return o.pickup || (o.createdAt ? ymd(new Date(o.createdAt)) : ""); }
+  function sumItems(items) { return items.reduce(function (s, i) { return s + (Number(i.amount) || 0); }, 0); }
+
+  /* ---------- reading a WhatsApp order message ---------- */
+  var MONTHS = { jan: 1, january: 1, feb: 2, february: 2, mar: 3, march: 3, apr: 4, april: 4, may: 5, jun: 6, june: 6, jul: 7, july: 7, aug: 8, august: 8, sep: 9, sept: 9, september: 9, oct: 10, october: 10, nov: 11, november: 11, dec: 12, december: 12,
+    januari: 1, februari: 2, maret: 3, mei: 5, juni: 6, juli: 7, agustus: 8, oktober: 10, desember: 12 };
+  function rpNum(s) { return parseInt(String(s).replace(/[^\d]/g, ""), 10) || 0; }
+  function parseDateText(s) {
+    var m = /(\d{4})-(\d{2})-(\d{2})/.exec(s);
+    if (m) return m[0];
+    m = /(\d{1,2})\s+([A-Za-z]+)\.?\s+(\d{4})/.exec(s);
+    if (m && MONTHS[m[2].toLowerCase()]) return m[3] + "-" + pad(MONTHS[m[2].toLowerCase()]) + "-" + pad(parseInt(m[1], 10));
+    return "";
+  }
+  function parseOrder(text) {
+    var o = { name: "", pickup: "", notes: "", pay: "", total: 0, items: [] };
+    var last = "", m;
+    text.split(/\r?\n/).forEach(function (raw) {
+      var line = raw.replace(/^\s*\[[^\]]*\]\s*[^:]{0,60}:\s*(?=Hello)/i, "").replace(/\s+$/, "");
+      if (!line.trim()) { if (last === "notes") last = ""; return; }
+      if ((m = /^\s*(\d+)\s*[×xX]\s*(.+?)\s*\(\s*Rp\.?\s*([\d.,]+)\s*\)\s*$/.exec(line))) {
+        o.items.push({ qty: parseInt(m[1], 10), name: m[2], amount: rpNum(m[3]), note: "" }); last = "item"; return;
+      }
+      if ((m = /^\s*Note:\s*(.*)$/i.exec(line)) && o.items.length && (last === "item" || last === "note")) {
+        var it = o.items[o.items.length - 1]; it.note = it.note ? it.note + " " + m[1].trim() : m[1].trim(); last = "note"; return;
+      }
+      if ((m = /^\s*Total:\s*Rp\.?\s*([\d.,]+)/i.exec(line))) { o.total = rpNum(m[1]); last = "total"; return; }
+      if ((m = /^\s*Name:\s*(.+)$/i.exec(line))) { o.name = m[1].trim(); last = "name"; return; }
+      if ((m = /^\s*Pick-?up date:\s*(.+)$/i.exec(line))) { o.pickup = parseDateText(m[1]); last = "date"; return; }
+      if ((m = /^\s*Notes:\s*(.*)$/i.exec(line))) { o.notes = m[1].trim(); last = "notes"; return; }
+      if ((m = /^\s*Payment:\s*(.+)$/i.exec(line))) { o.pay = /qris/i.test(m[1]) ? "qris" : /bank|transfer/i.test(m[1]) ? "bank" : /cash|tunai/i.test(m[1]) ? "cash" : ""; last = "pay"; return; }
+      if (last === "notes" && !/^\s*I'll send/i.test(line)) { o.notes += (o.notes ? " " : "") + line.trim(); return; }
+      last = "";
+    });
+    return o;
+  }
+
+  /* ---------- order form ---------- */
+  function blankForm() { return { name: "", pickup: "", pay: "", status: "new", notes: "", items: [{ qty: 1, name: "", amount: 0, note: "" }], total: 0 }; }
+  function renderForm() {
+    $("f-name").value = form.name; $("f-date").value = form.pickup; $("f-pay").value = form.pay;
+    $("f-status").value = form.status; $("f-notes").value = form.notes;
+    var box = $("f-items"); box.innerHTML = "";
+    form.items.forEach(function (it, i) {
+      var row = el("div", "it");
+      function f(cls, id, label, type, val, on, extra) {
+        var w = el("div", "fld " + cls), l = el("label", "caps", label); l.htmlFor = id;
+        var inp = document.createElement("input"); inp.type = type; inp.id = id; inp.value = val;
+        if (type === "number") { inp.min = "0"; inp.inputMode = "numeric"; }
+        inp.addEventListener("input", function () { on(inp.value); updateTotal(); });
+        w.appendChild(l); w.appendChild(inp); return w;
+      }
+      row.appendChild(f("", "it-q" + i, "Qty", "number", String(it.qty), function (v) { it.qty = Math.max(0, parseInt(v, 10) || 0); }));
+      row.appendChild(f("", "it-n" + i, "Item", "text", it.name, function (v) { it.name = v; }));
+      row.appendChild(f("amt", "it-a" + i, "Amount (Rp)", "number", String(it.amount), function (v) { it.amount = Math.max(0, Math.round(Number(v) || 0)); }));
+      row.appendChild(f("note", "it-t" + i, "Note for this item", "text", it.note, function (v) { it.note = v; }));
+      var rm = el("button", "link danger rm", "Remove item"); rm.type = "button";
+      rm.setAttribute("aria-label", "Remove item " + (i + 1));
+      rm.addEventListener("click", function () { form.items.splice(i, 1); if (!form.items.length) form.items.push({ qty: 1, name: "", amount: 0, note: "" }); renderForm(); });
+      row.appendChild(rm);
+      box.appendChild(row);
+    });
+    updateTotal();
+  }
+  function updateTotal() {
+    var t = sumItems(form.items); form.total = t; $("f-total").textContent = rp(t);
+    var w = $("f-warn");
+    if (form.msgTotal && form.msgTotal !== t) { w.hidden = false; w.textContent = "The message says the total is " + rp(form.msgTotal) + ", but the items add up to " + rp(t) + ". Check the amounts."; }
+    else w.hidden = true;
+  }
+  function openForm(o) {
+    editing = o ? o.id : "";
+    form = o ? JSON.parse(JSON.stringify(o)) : blankForm();
+    if (o) { form.items = form.items && form.items.length ? form.items : [{ qty: 1, name: "", amount: 0, note: "" }]; }
+    $("add-panel").hidden = false;
+    $("form-title").textContent = o ? "Edit order" : "Add an order";
+    $("paste-box").hidden = !!o; $("form").hidden = !o;
+    if (!o) { $("paste").value = ""; }
+    if (o) renderForm();
+    $("add-panel").scrollIntoView({ block: "start" });
+    (o ? $("f-name") : $("paste")).focus();
+  }
+  function closeForm() { $("add-panel").hidden = true; editing = null; form = null; }
+  $("open-add").addEventListener("click", function () { openForm(null); });
+  $("cancel").addEventListener("click", closeForm);
+  $("read").addEventListener("click", function () {
+    var t = $("paste").value;
+    var p = parseOrder(t);
+    form = blankForm();
+    if (!p.items.length) {
+      setStatus("No items found in that text. Paste the whole order message, or fill the order in by hand.", "error");
+      form.items = [{ qty: 1, name: "", amount: 0, note: "" }];
+    } else { setStatus(""); form.items = p.items; form.msgTotal = p.total; }
+    form.name = p.name; form.pickup = p.pickup; form.pay = p.pay; form.notes = p.notes;
+    $("paste-box").hidden = true; $("form").hidden = false; renderForm();
+    $("f-name").focus();
+  });
+  $("f-name").addEventListener("input", function () { form.name = this.value; });
+  $("f-date").addEventListener("input", function () { form.pickup = this.value; });
+  $("f-pay").addEventListener("change", function () { form.pay = this.value; });
+  $("f-status").addEventListener("change", function () { form.status = this.value; });
+  $("f-notes").addEventListener("input", function () { form.notes = this.value; });
+  $("add-item").addEventListener("click", function () { form.items.push({ qty: 1, name: "", amount: 0, note: "" }); renderForm(); $("it-n" + (form.items.length - 1)).focus(); });
+
+  function sig(o) { return [o.name.trim().toLowerCase(), o.pickup, o.total, o.items.map(function (i) { return i.qty + i.name.trim().toLowerCase(); }).join("|")].join("#"); }
+  $("save").addEventListener("click", function () {
+    if (!db) return;
+    var items = form.items.filter(function (i) { return i.name.trim(); }).map(function (i) { return { qty: i.qty || 1, name: i.name.trim(), amount: i.amount || 0, note: (i.note || "").trim() }; });
+    if (!form.name.trim()) { setStatus("Add the customer's name.", "error"); $("f-name").focus(); return; }
+    if (!items.length) { setStatus("Add at least one item with a name.", "error"); return; }
+    var base = editing ? orders.filter(function (x) { return x.id === editing; })[0] : null;
+    var doc = {
+      name: form.name.trim(), pickup: form.pickup || "", pay: form.pay || "", status: form.status || "new",
+      notes: (form.notes || "").trim(), items: items, total: sumItems(items),
+      createdAt: base && base.createdAt ? base.createdAt : new Date().toISOString(), source: base && base.source ? base.source : "whatsapp"
+    };
+    if (!editing) {
+      var dup = orders.filter(function (x) { return sig(x) === sig(doc); })[0];
+      if (dup && !form.dupOk) { form.dupOk = true; setStatus("This looks the same as an order already saved for " + dup.name + ". Press Save order again to add it anyway.", "error"); return; }
+    }
+    var id = editing || ("o" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5));
+    $("save").disabled = true;
+    db.doc("orders/" + id).set(doc).then(function () {
+      setStatus(editing ? "Order updated." : "Order saved.");
+      closeForm();
+    }).catch(function (e) { setStatus("Could not save the order (" + ((e && e.code) || "error") + "). Try again in a moment.", "error"); })
+      .then(function () { $("save").disabled = false; });
+  });
+
+  /* ---------- filters ---------- */
+  var PERIODS = [["all", "All time"], ["today", "Today"], ["week", "This week"], ["month", "This month"], ["lastmonth", "Last month"], ["custom", "Custom dates"]];
+  function range() {
+    var d = new Date(), a = "", b = "";
+    if (period === "today") { a = b = today(); }
+    else if (period === "week") { var x = new Date(d); x.setDate(d.getDate() - ((d.getDay() + 6) % 7)); var y = new Date(x); y.setDate(x.getDate() + 6); a = ymd(x); b = ymd(y); }
+    else if (period === "month") { a = ymd(new Date(d.getFullYear(), d.getMonth(), 1)); b = ymd(new Date(d.getFullYear(), d.getMonth() + 1, 0)); }
+    else if (period === "lastmonth") { a = ymd(new Date(d.getFullYear(), d.getMonth() - 1, 1)); b = ymd(new Date(d.getFullYear(), d.getMonth(), 0)); }
+    else if (period === "custom") { a = from; b = to; }
+    return [a, b];
+  }
+  function periodLabel() {
+    var r = range();
+    if (period === "all") return "All time";
+    if (period === "custom") return (r[0] ? fmtDate(r[0]) : "Start") + " to " + (r[1] ? fmtDate(r[1]) : "today");
+    var name = PERIODS.filter(function (p) { return p[0] === period; })[0][1];
+    return name + " (" + fmtDate(r[0]) + (r[0] === r[1] ? "" : " to " + fmtDate(r[1])) + ")";
+  }
+  function inPeriod() {
+    var r = range();
+    return orders.filter(function (o) { var d = oDate(o); return (!r[0] || d >= r[0]) && (!r[1] || d <= r[1]); });
+  }
+  function sorted(list) { return list.slice().sort(function (a, b) { return (oDate(b) + (b.createdAt || "")).localeCompare(oDate(a) + (a.createdAt || "")); }); }
+  function visible() {
+    var list = inPeriod();
+    if (status !== "all") list = list.filter(function (o) { return o.status === status; });
+    if (q.trim()) {
+      var k = q.trim().toLowerCase();
+      list = list.filter(function (o) { return o.name.toLowerCase().indexOf(k) >= 0 || o.items.some(function (i) { return i.name.toLowerCase().indexOf(k) >= 0; }); });
+    }
+    return sorted(list);
+  }
+
+  function fillPeriodSelect(sel) {
+    sel.innerHTML = "";
+    PERIODS.forEach(function (p) { var o = document.createElement("option"); o.value = p[0]; o.textContent = p[1]; sel.appendChild(o); });
+    sel.value = period;
+  }
+  function syncPeriodUi() {
+    ["period", "period2"].forEach(function (id) { $(id).value = period; });
+    var c = period === "custom";
+    ["custom", "custom2", "custom-r", "custom-r2"].forEach(function (id) { $(id).hidden = !c; });
+    ["from", "from2"].forEach(function (id) { $(id).value = from; });
+    ["to", "to2"].forEach(function (id) { $(id).value = to; });
+  }
+  ["period", "period2"].forEach(function (id) { $(id).addEventListener("change", function () { period = this.value; syncPeriodUi(); render(); }); });
+  ["from", "from2"].forEach(function (id) { $(id).addEventListener("input", function () { from = this.value; syncPeriodUi(); render(); }); });
+  ["to", "to2"].forEach(function (id) { $(id).addEventListener("input", function () { to = this.value; syncPeriodUi(); render(); }); });
+  $("q").addEventListener("input", function () { q = this.value; renderOrders(); });
+
+  /* ---------- order list ---------- */
+  function arm(btn, armed, run) {
+    var base = btn.textContent, t;
+    btn.addEventListener("click", function () {
+      if (btn.dataset.armed) { clearTimeout(t); run(); }
+      else { btn.dataset.armed = "1"; btn.textContent = armed; t = setTimeout(function () { delete btn.dataset.armed; btn.textContent = base; }, 4000); }
+    });
+  }
+  function renderChips() {
+    var base = inPeriod(), box = $("chips");
+    box.innerHTML = "";
+    [["all", "All"], ["new", "New"], ["paid", "Paid"], ["done", "Picked up"], ["cancelled", "Cancelled"]].forEach(function (s) {
+      var n = s[0] === "all" ? base.length : base.filter(function (o) { return o.status === s[0]; }).length;
+      var b = el("button", "chip"); b.type = "button"; b.setAttribute("aria-pressed", status === s[0] ? "true" : "false");
+      b.appendChild(document.createTextNode(s[1])); b.appendChild(el("span", "n num", String(n)));
+      b.addEventListener("click", function () { status = s[0]; renderChips(); renderOrders(); });
+      box.appendChild(b);
+    });
+  }
+  function renderOrders() {
+    var box = $("orders"), list = visible();
+    box.innerHTML = "";
+    if (!orders.length) { box.appendChild(el("p", "empty", "No orders recorded yet. When an order arrives on WhatsApp, press Add order and paste the message. It is read for you and saved here.")); return; }
+    if (!list.length) { box.appendChild(el("p", "empty", "No orders match this period, status or search.")); return; }
+    list.forEach(function (o) {
+      var c = el("article", "order"); c.dataset.s = o.status; c.dataset.id = o.id;
+      var top = el("div", "o-top");
+      top.appendChild(el("div", "o-name", o.name));
+      top.appendChild(el("div", "o-total num", rp(o.total)));
+      c.appendChild(top);
+      var meta = el("div", "o-meta");
+      meta.appendChild(el("span", "", "Pick-up " + fmtDate(o.pickup, false)));
+      meta.appendChild(el("span", "", PAY[o.pay || ""]));
+      c.appendChild(meta);
+      var ul = el("ul", "o-items");
+      o.items.forEach(function (i) {
+        var li = el("li"); li.appendChild(el("span", "q num", i.qty + " ×")); li.appendChild(el("span", "", i.name)); li.appendChild(el("span", "num", rp(i.amount)));
+        if (i.note) li.appendChild(el("span", "nt", "Note: " + i.note));
+        ul.appendChild(li);
+      });
+      c.appendChild(ul);
+      if (o.notes) c.appendChild(el("p", "o-notes", "Order notes: " + o.notes));
+      var foot = el("div", "o-foot");
+      var sw = el("div", "fld"), sl = el("label", "caps", "Status"); sl.htmlFor = "st-" + o.id;
+      var sel = document.createElement("select"); sel.id = "st-" + o.id;
+      Object.keys(STATUS).forEach(function (k) { var op = document.createElement("option"); op.value = k; op.textContent = STATUS[k]; sel.appendChild(op); });
+      sel.value = o.status;
+      sel.addEventListener("change", function () {
+        db.doc("orders/" + o.id).update({ status: sel.value }).catch(function (e) { setStatus("Could not change the status (" + ((e && e.code) || "error") + ").", "error"); sel.value = o.status; });
+      });
+      sw.appendChild(sl); sw.appendChild(sel); foot.appendChild(sw);
+      var ed = el("button", "link", "Edit"); ed.type = "button"; ed.setAttribute("aria-label", "Edit order of " + o.name);
+      ed.addEventListener("click", function () { openForm(o); });
+      var del = el("button", "link danger", "Delete"); del.type = "button"; del.setAttribute("aria-label", "Delete order of " + o.name);
+      arm(del, "Press again to delete", function () { db.doc("orders/" + o.id).delete().catch(function () { setStatus("Could not delete the order.", "error"); }); });
+      foot.appendChild(ed); foot.appendChild(del);
+      c.appendChild(foot);
+      box.appendChild(c);
+    });
+  }
+
+  /* ---------- report ---------- */
+  function stats(list) {
+    var live = list.filter(function (o) { return o.status !== "cancelled"; });
+    var s = { n: live.length, revenue: 0, received: 0, outstanding: 0, qty: 0, cancelled: list.length - live.length, days: {}, items: {}, pay: {}, live: live };
+    live.forEach(function (o) {
+      s.revenue += o.total;
+      if (o.status === "new") s.outstanding += o.total; else s.received += o.total;
+      var d = oDate(o) || "none"; s.days[d] = (s.days[d] || 0) + o.total;
+      var pk = o.pay || ""; s.pay[pk] = (s.pay[pk] || 0) + o.total;
+      o.items.forEach(function (i) {
+        var k = i.name.trim(); var r = s.items[k] || (s.items[k] = { qty: 0, amount: 0 });
+        r.qty += i.qty; r.amount += i.amount; s.qty += i.qty;
+      });
+    });
+    return s;
+  }
+  function barRows(rows, max, cls) {
+    var box = el("div", "bars");
+    rows.forEach(function (r) {
+      var row = el("div", "bar-row"), l = el("div", "l");
+      l.appendChild(el("span", "", r[0])); l.appendChild(el("span", "num", r[1]));
+      var t = el("div", "track"), f = el("div", "fill" + (cls ? " " + cls : "")); f.style.width = Math.max(2, Math.round(r[2] / (max || 1) * 100)) + "%";
+      t.appendChild(f); row.appendChild(l); row.appendChild(t); box.appendChild(row);
+    });
+    return box;
+  }
+  function renderReport() {
+    var box = $("report"); box.innerHTML = "";
+    var list = inPeriod(), s = stats(list);
+    $("export").hidden = !list.length;
+    if (!list.length) { box.appendChild(el("p", "empty", "No orders in this period yet.")); return; }
+    var tiles = el("div", "tiles");
+    function tile(label, val, main) { var t = el("div", "tile" + (main ? " main" : "")); t.appendChild(el("span", "caps", label)); t.appendChild(el("span", "v num", val)); tiles.appendChild(t); }
+    tile("Revenue", rp(s.revenue), true);
+    tile("Orders", String(s.n));
+    tile("Paid or picked up", rp(s.received));
+    tile("Waiting for payment", rp(s.outstanding));
+    tile("Items sold", String(s.qty));
+    tile("Average order", rp(s.n ? Math.round(s.revenue / s.n) : 0));
+    box.appendChild(tiles);
+    var blocks = el("div", "blocks");
+
+    var b1 = el("section", "block"); b1.appendChild(el("h3", "", "Revenue by day"));
+    var days = Object.keys(s.days).sort(); if (days.length > 31) days = days.slice(-31);
+    var dmax = Math.max.apply(null, days.map(function (d) { return s.days[d]; }));
+    b1.appendChild(barRows(days.map(function (d) { return [d === "none" ? "No date" : fmtDate(d), rp(s.days[d]), s.days[d]]; }), dmax));
+    blocks.appendChild(b1);
+
+    var b2 = el("section", "block"); b2.appendChild(el("h3", "", "Best sellers"));
+    var names = Object.keys(s.items).sort(function (a, b) { return s.items[b].qty - s.items[a].qty || s.items[b].amount - s.items[a].amount; }).slice(0, 10);
+    var imax = names.length ? s.items[names[0]].qty : 1;
+    b2.appendChild(barRows(names.map(function (n) { return [n, s.items[n].qty + " sold · " + rp(s.items[n].amount), s.items[n].qty]; }), imax, "ok"));
+    blocks.appendChild(b2);
+
+    var b3 = el("section", "block"); b3.appendChild(el("h3", "", "How customers pay"));
+    var pk = Object.keys(s.pay).sort(function (a, b) { return s.pay[b] - s.pay[a]; });
+    var pmax = pk.length ? s.pay[pk[0]] : 1;
+    b3.appendChild(barRows(pk.map(function (k) { return [PAY[k] || "Not stated", rp(s.pay[k]), s.pay[k]]; }), pmax));
+    if (s.cancelled) b3.appendChild(el("p", "hint", s.cancelled + (s.cancelled === 1 ? " cancelled order is" : " cancelled orders are") + " left out."));
+    blocks.appendChild(b3);
+    box.appendChild(blocks);
+  }
+
+  /* ---------- downloads ---------- */
+  function csvCell(v) { v = String(v == null ? "" : v); return /[",\n\r;]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+  function buildCsv(list) {
+    var rows = [["Order ID", "Received", "Pick-up date", "Customer", "Items", "Item notes", "Total (Rp)", "Payment", "Status", "Order notes"]];
+    sorted(list).forEach(function (o) {
+      rows.push([o.id, o.createdAt ? ymd(new Date(o.createdAt)) : "", o.pickup, o.name,
+        o.items.map(function (i) { return i.qty + " x " + i.name; }).join("; "),
+        o.items.filter(function (i) { return i.note; }).map(function (i) { return i.name + ": " + i.note; }).join("; "),
+        o.total, PAY[o.pay || ""], STATUS[o.status] || o.status, o.notes]);
+    });
+    return "﻿" + rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n");
+  }
+  function buildPdf(list) {
+    var J = window.jspdf.jsPDF, doc = new J({ unit: "mm", format: "a4" }), W = 210, M = 18, y = 0, s = stats(list);
+    function rgb(h) { return [parseInt(h.substr(1, 2), 16), parseInt(h.substr(3, 2), 16), parseInt(h.substr(5, 2), 16)]; }
+    function fill(h) { var c = rgb(h); doc.setFillColor(c[0], c[1], c[2]); }
+    function ink(h) { var c = rgb(h); doc.setTextColor(c[0], c[1], c[2]); }
+    function draw(h) { var c = rgb(h); doc.setDrawColor(c[0], c[1], c[2]); }
+    var GOLD = "#B8962E", TEXT = "#222222", MUTE = "#6b6b6b";
+    fill("#0E1713"); doc.rect(0, 0, W, 34, "F");
+    ink("#D4AF37"); doc.setFont("times", "bolditalic"); doc.setFontSize(24); doc.text("Baked By Zav", M, 17);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(15); doc.text("ORDER REPORT", W - M, 15, { align: "right" });
+    doc.setFont("helvetica", "normal"); doc.setFontSize(9); ink("#d9d4c3");
+    doc.text(periodLabel(), M, 26); doc.text("Created " + fmtDate(today()), W - M, 26, { align: "right" });
+    y = 48;
+    function lab(t, x, yy) { doc.setFont("helvetica", "bold"); doc.setFontSize(7.5); ink(GOLD); doc.text(t.toUpperCase(), x, yy); }
+    function val(t, x, yy, big) { doc.setFont("helvetica", big ? "bold" : "normal"); doc.setFontSize(big ? 13 : 10.5); ink(TEXT); doc.text(t, x, yy); }
+    var cells = [["Revenue", rp(s.revenue)], ["Orders", String(s.n)], ["Paid or picked up", rp(s.received)], ["Waiting for payment", rp(s.outstanding)], ["Items sold", String(s.qty)], ["Average order", rp(s.n ? Math.round(s.revenue / s.n) : 0)]];
+    cells.forEach(function (c, i) { var x = M + (i % 3) * 58, yy = y + Math.floor(i / 3) * 18; lab(c[0], x, yy); val(c[1], x, yy + 7, true); });
+    y += 44;
+    lab("Best sellers", M, y); y += 7;
+    Object.keys(s.items).sort(function (a, b) { return s.items[b].qty - s.items[a].qty; }).slice(0, 8).forEach(function (n) {
+      doc.setFont("helvetica", "normal"); doc.setFontSize(10); ink(TEXT);
+      doc.text(doc.splitTextToSize(n, 100)[0], M, y); doc.text(s.items[n].qty + " sold", 130, y, { align: "right" }); doc.text(rp(s.items[n].amount), W - M, y, { align: "right" }); y += 6;
+    });
+    y += 8;
+    function head() {
+      fill("#f4efe0"); doc.rect(M, y - 5, W - 2 * M, 8, "F");
+      doc.setFont("helvetica", "bold"); doc.setFontSize(7.5); ink(GOLD);
+      doc.text("PICK-UP", M + 2, y); doc.text("CUSTOMER", M + 36, y); doc.text("ITEMS", M + 78, y); doc.text("STATUS", 150, y); doc.text("TOTAL", W - M - 2, y, { align: "right" }); y += 9;
+    }
+    lab("Orders", M, y); y += 8; head();
+    sorted(list).forEach(function (o) {
+      var its = doc.splitTextToSize(o.items.map(function (i) { return i.qty + " x " + i.name; }).join(", "), 50);
+      var h = Math.max(1, Math.min(its.length, 3)) * 4.6 + 3;
+      if (y + h > 276) { doc.addPage(); y = 22; head(); }
+      doc.setFont("helvetica", "normal"); doc.setFontSize(9.5); ink(TEXT);
+      doc.text(o.pickup ? fmtDate(o.pickup).replace(/^\w+ /, "") : "No date", M + 2, y);
+      doc.text(doc.splitTextToSize(o.name, 38)[0], M + 36, y);
+      doc.setFontSize(8.5); doc.text(its.slice(0, 3), M + 78, y);
+      doc.setFontSize(9.5); doc.text(STATUS[o.status] || o.status, 150, y); doc.text(rp(o.total), W - M - 2, y, { align: "right" });
+      y += h - 3; draw("#e3dcc6"); doc.setLineWidth(0.2); doc.line(M, y, W - M, y); y += 6;
+    });
+    var pages = doc.getNumberOfPages();
+    for (var p = 1; p <= pages; p++) { doc.setPage(p); doc.setFont("helvetica", "normal"); doc.setFontSize(8); ink(MUTE); doc.text("Baked By Zav · cancelled orders are not counted in revenue", M, 289); doc.text(p + " / " + pages, W - M, 289, { align: "right" }); }
+    return doc.output("arraybuffer");
+  }
+  function save(name, data) {
+    if (!downloads) { $("dl-msg").textContent = "Downloads are not available in this view."; return; }
+    $("dl-msg").textContent = "";
+    downloads.save({ filename: name, data: data }).then(function () { $("dl-msg").textContent = "Saved " + name + "."; })
+      .catch(function (e) { $("dl-msg").textContent = e && e.code === "declined" ? "" : "Could not save the file (" + ((e && e.code) || "error") + ")."; });
+  }
+  $("dl-csv").addEventListener("click", function () { save("zav-orders-" + today() + ".csv", buildCsv(inPeriod())); });
+  $("dl-pdf").addEventListener("click", function () { try { save("zav-order-report-" + today() + ".pdf", buildPdf(inPeriod())); } catch (e) { $("dl-msg").textContent = "Could not build the report."; } });
+
+  /* ---------- views ---------- */
+  function render() { renderChips(); renderOrders(); if (view === "report") renderReport(); }
+  document.querySelectorAll("#tabs .tab").forEach(function (b) {
+    b.addEventListener("click", function () {
+      view = b.dataset.v;
+      document.querySelectorAll("#tabs .tab").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      $("v-orders").hidden = view !== "orders"; $("v-report").hidden = view !== "report";
+      render();
+    });
+  });
+
+  fillPeriodSelect($("period")); fillPeriodSelect($("period2")); syncPeriodUi();
+
+  function start(d) {
+    db = d; ready = true;
+    $("gate").hidden = true; $("app").hidden = false;
+    $("orders").appendChild(el("p", "empty", "Loading orders…"));
+    db.collection("orders").onSnapshot(function (snap) {
+      orders = snap.docs.map(function (x) {
+        var v = x.data() || {};
+        return { id: x.id, name: String(v.name || ""), pickup: String(v.pickup || ""), pay: String(v.pay || ""), status: STATUS[v.status] ? v.status : "new",
+          notes: String(v.notes || ""), total: Number(v.total) || 0, createdAt: String(v.createdAt || ""), source: String(v.source || ""),
+          items: Array.isArray(v.items) ? v.items.map(function (i) { return { qty: Number(i.qty) || 1, name: String(i.name || ""), amount: Number(i.amount) || 0, note: String(i.note || "") }; }) : [] };
+      });
+      render();
+    }, function (e) { setStatus("Orders could not be loaded (" + ((e && e.code) || "error") + ").", "error"); });
+  }
+  function deny(msg) { $("gate").innerHTML = ""; $("gate").appendChild(el("h2", "", "Private page")); $("gate").appendChild(el("p", "", msg)); }
+
+  if (window.claude && typeof window.claude.use === "function") {
+    Promise.all([window.claude.use("db"), window.claude.use("user"), window.claude.use("downloads")]).then(function (r) {
+      downloads = r[2];
+      if (!r[0]) { deny("Orders can only be opened from Zav's own account. Sign in and open this page again."); return; }
+      var owner = r[1] ? r[1].canEdit() : Promise.resolve(true);
+      return owner.then(function (ok) { if (ok === false) deny("This page is for Zav only."); else start(r[0]); });
+    }).catch(function () { deny("This page could not start. Reload it and try again."); });
+  } else {
+    deny("Open this page from your Claude account to see your orders.");
+  }
+})();
+</script>

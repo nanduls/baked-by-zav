@@ -1,0 +1,1624 @@
+<title>Baked By Zav Classic</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap">
+<style>
+/* Layout: gold script logo as the hero, hairline fact row, statement about, ruled house favourites, double-framed printed menu, quiet order list. An admin view in the same visual language edits the menu and the text. One dark theme on purpose so the logo's gold always has a deep ground. */
+:root {
+  color-scheme: dark;
+  --bg: #0E1713;
+  --surface: #13201A;
+  --fg: #F1EBDD;
+  --muted: #A7AE9F;
+  --gold: #D4AF37;
+  --on-gold: #0E1713;
+  --danger: #E59A8C;
+  --line: rgba(212, 175, 55, 0.34);
+  --line-soft: rgba(241, 235, 221, 0.14);
+  --font-display: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-body: "Jost", "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; background: var(--bg); }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 17px;
+  line-height: 1.7;
+  padding-block: 0 96px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 10; background: var(--bg);
+}
+body.is-admin .site-only { display: none !important; }
+.wrap { max-width: 1080px; margin: 0 auto; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; margin: 0; text-wrap: balance; }
+.caps { font-family: var(--font-body); font-size: 12px; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: var(--muted); }
+.logo { display: block; color: var(--gold); height: auto; }
+
+/* header */
+header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--bg); border-bottom: 1px solid var(--line-soft); }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 32px; padding-block: 14px; }
+.bar .logo { width: 120px; }
+nav { display: flex; flex-wrap: wrap; gap: 6px 28px; }
+nav a { text-decoration: none; font-size: 12px; font-weight: 400; letter-spacing: 0.22em; text-transform: uppercase; padding-block: 4px; border-bottom: 1px solid transparent; }
+nav a:hover { color: var(--gold); border-color: var(--gold); }
+nav a.admin-link { color: var(--gold); }
+
+/* hero */
+.hero { padding-block: 72px 24px; }
+.hero .logo { width: min(100%, 840px); margin-block: 28px 24px; }
+.tagline { font-family: var(--font-display); font-style: italic; font-size: clamp(22px, 3vw, 32px); line-height: 1.25; max-width: 30ch; margin: 0 0 32px; }
+.btns { display: flex; flex-wrap: wrap; gap: 14px; }
+.btn {
+  display: inline-block; text-decoration: none; cursor: pointer;
+  font: 500 13px var(--font-body); letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 15px 30px; border: 1px solid var(--gold); background: var(--gold); color: var(--on-gold);
+}
+.btn.ghost { background: transparent; color: var(--gold); }
+.btn:hover { filter: brightness(1.1); }
+.btn.ghost:hover { background: var(--gold); color: var(--on-gold); filter: none; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
+.hero-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 56px; border-top: 1px solid var(--line); padding-top: 24px; }
+.hero-facts p { margin: 0; }
+.hero-facts .v { font-family: var(--font-display); font-size: 24px; margin-top: 4px; line-height: 1.2; display: inline-block; }
+
+.orn { display: flex; align-items: center; gap: 18px; padding-block: 56px 0; }
+.orn::before, .orn::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.orn i { width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); }
+
+/* sections */
+section { padding-block: 72px 8px; }
+.sec-head { margin-bottom: 36px; }
+.sec-head h2 { font-size: clamp(36px, 5.5vw, 60px); line-height: 1.05; margin-top: 10px; letter-spacing: -0.01em; }
+.sec-head h2 em { color: var(--gold); }
+
+.about { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+.statement { font-family: var(--font-display); font-size: clamp(26px, 3.4vw, 38px); line-height: 1.25; margin: 0; }
+.statement em { color: var(--gold); }
+.about-text p { margin: 0 0 18px; color: var(--muted); max-width: 46ch; }
+.about-text p:last-child { margin-bottom: 0; }
+
+.fav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+.fav article { border-top: 1px solid var(--gold); padding-top: 20px; min-width: 0; }
+.fav h3 { font-size: 28px; line-height: 1.1; margin-bottom: 10px; }
+.fav p { margin: 0 0 14px; color: var(--muted); font-size: 16px; }
+.fav .price { font-weight: 500; letter-spacing: 0.06em; color: var(--gold); }
+.fav .art { width: 64px; height: 64px; color: var(--gold); margin-bottom: 16px; }
+.fav .art svg { width: 100%; height: 100%; }
+.fav .photo { display: block; width: 100%; aspect-ratio: 4 / 3; margin-bottom: 18px; border: 1px solid var(--line); outline: 1px solid var(--line-soft); outline-offset: 3px; }
+
+/* menu */
+.frame { border: 1px solid var(--line); padding: 8px; }
+.frame-inner { border: 1px solid var(--line-soft); background: var(--surface); padding: clamp(20px, 4.5vw, 52px); }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-bottom: 36px; }
+.tab {
+  font: 400 12px var(--font-body); letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer;
+  background: none; border: 0; border-bottom: 1px solid transparent; padding: 6px 0; color: var(--muted);
+}
+.tab:hover { color: var(--fg); }
+.tab[aria-pressed="true"] { color: var(--gold); border-bottom-color: var(--gold); }
+.cat + .cat { margin-top: 40px; }
+.cat-head { display: flex; align-items: center; gap: 18px; margin-bottom: 8px; }
+.cat-head h3 { font-style: italic; font-size: 30px; color: var(--gold); }
+.cat-head::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 56px; }
+.item { display: grid; grid-template-columns: 108px minmax(0, 1fr); gap: 20px; align-items: start; padding-block: 18px; border-bottom: 1px solid var(--line-soft); min-width: 0; }
+.thumb { position: relative; width: 108px; height: 108px; display: grid; place-items: center; color: var(--gold); background: var(--bg); border: 1px solid var(--line); outline: 1px solid var(--line-soft); outline-offset: 3px; }
+.thumb svg { width: 62px; height: 62px; }
+.thumb .draw { display: grid; place-items: center; }
+.zoom { width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; display: block; }
+.zoom img, .thumb > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.item-body { min-width: 0; }
+.item-top { display: flex; align-items: baseline; gap: 12px; }
+.item h4 { font-family: var(--font-display); font-weight: 400; font-size: 21px; line-height: 1.2; margin: 0; }
+.item .lead { flex: 1; border-bottom: 1px dotted var(--line); transform: translateY(-4px); min-width: 12px; }
+.item .price { font-weight: 500; font-size: 15px; letter-spacing: 0.05em; color: var(--gold); white-space: nowrap; }
+.item p { margin: 4px 0 0; font-size: 15px; color: var(--muted); max-width: 44ch; }
+.item-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; margin-top: 8px; }
+.item .note { font-size: 11px; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+.wa-link { font: 500 11px var(--font-body); letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 1px; }
+.wa-link:hover { color: var(--fg); border-color: var(--fg); }
+.menu-note { margin: 28px 0 0; font-size: 14px; color: var(--muted); }
+
+/* order */
+.order { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: start; }
+.order p { margin: 0 0 18px; color: var(--muted); max-width: 46ch; }
+.contacts { border-bottom: 1px solid var(--line-soft); }
+.contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; padding-block: 20px; border-top: 1px solid var(--line-soft); }
+.contact .v { font-family: var(--font-display); font-size: 24px; line-height: 1.2; margin-top: 2px; overflow-wrap: anywhere; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+.link-btn { font: 400 12px var(--font-body); letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; background: none; border: 0; border-bottom: 1px solid var(--gold); padding: 4px 0; color: var(--gold); text-decoration: none; display: inline-block; }
+.link-btn:hover { color: var(--fg); border-color: var(--fg); }
+.link-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.link-btn.danger { color: var(--danger); border-color: var(--danger); }
+
+footer { margin-top: 88px; padding-top: 28px; border-top: 1px solid var(--line-soft); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; }
+footer .logo { width: 140px; }
+footer p { margin: 0; font-size: 13px; color: var(--muted); }
+
+/* floating shortcuts */
+.float-stack { position: fixed; z-index: 8; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.ig-float { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--gold); border: 1px solid var(--gold); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45); text-decoration: none; }
+.ig-float svg { width: 22px; height: 22px; }
+.ig-float:hover { background: var(--gold); color: var(--on-gold); }
+.wa-float { text-decoration: none; display: grid; place-items: center; width: 54px; height: 54px; background: var(--gold); color: var(--on-gold); border-radius: 50%; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45); }
+.wa-float svg { width: 26px; height: 26px; }
+.wa-float:hover { filter: brightness(1.1); }
+.wa-float:focus-visible { outline-color: var(--fg); }
+
+/* cart */
+.nav-cart { font: 400 12px var(--font-body); letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg); background: none; border: 0; border-bottom: 1px solid transparent; padding: 4px 0; cursor: pointer; }
+.nav-cart:hover { color: var(--gold); border-color: var(--gold); }
+.nav-count::before { content: " ("; }
+.nav-count::after { content: ")"; }
+.cart-float { position: relative; width: 54px; height: 54px; padding: 0; display: grid; place-items: center; border-radius: 50%; background: var(--bg); color: var(--gold); border: 1px solid var(--gold); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45); cursor: pointer; }
+.cart-float svg { width: 24px; height: 24px; }
+.cart-float:hover { background: var(--gold); color: var(--on-gold); }
+.cart-badge { position: absolute; top: -6px; right: -6px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--gold); color: var(--on-gold); font: 500 12px/22px var(--font-body); text-align: center; }
+.item-ctl { display: inline-flex; }
+.add-btn { font: 500 11px var(--font-body); letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); background: none; border: 1px solid var(--gold); padding: 6px 14px; cursor: pointer; }
+.add-btn:hover { background: var(--gold); color: var(--on-gold); }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--gold); }
+.stepper button { width: 34px; height: 32px; background: none; border: 0; color: var(--gold); font: 400 18px/1 var(--font-body); cursor: pointer; }
+.stepper button:hover:not(:disabled) { background: var(--gold); color: var(--on-gold); }
+.stepper button:disabled { opacity: 0.35; cursor: not-allowed; }
+.stepper .qty { min-width: 34px; text-align: center; font-weight: 500; font-variant-numeric: tabular-nums; }
+body.cart-open { overflow: hidden; }
+.cart-overlay { position: fixed; inset: 0; z-index: 25; background: rgba(8, 14, 11, 0.7); }
+.cart { position: fixed; z-index: 30; top: 0; right: 0; bottom: 0; width: min(440px, 100%); background: var(--surface); border-left: 1px solid var(--line); display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.cart-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px max(20px, env(safe-area-inset-right, 0px)) 16px 20px; border-bottom: 1px solid var(--line-soft); }
+.cart-head h2 { font-size: 30px; }
+.cart-body { flex: 1; min-height: 0; overflow-y: auto; padding: 8px max(20px, env(safe-area-inset-right, 0px)) 24px 20px; }
+.cart-empty { padding-block: 32px; display: grid; gap: 20px; justify-items: start; color: var(--muted); }
+.cart-empty p { margin: 0; }
+.cart-list { list-style: none; margin: 0; padding: 0; }
+.cart-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; padding-block: 18px; border-bottom: 1px solid var(--line-soft); }
+.cr-main { display: grid; gap: 2px; min-width: 0; }
+.cr-main strong { font-family: var(--font-display); font-weight: 400; font-size: 20px; line-height: 1.2; }
+.cr-unit { font-size: 14px; color: var(--muted); }
+.cr-note { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+.cr-total { font-weight: 500; color: var(--gold); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.cr-ctl { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.cr-notefld { grid-column: 1 / -1; margin-top: 4px; }
+.cart-sum { display: flex; justify-content: space-between; align-items: baseline; padding-block: 20px 8px; }
+.cart-sum strong { font-family: var(--font-display); font-weight: 400; font-size: 30px; color: var(--gold); }
+.cart-fields { display: grid; gap: 16px; padding-block: 12px 12px; }
+.cart-foot { padding: 16px max(20px, env(safe-area-inset-right, 0px)) 20px 20px; border-top: 1px solid var(--line); display: grid; gap: 10px; background: var(--surface); }
+.cart-foot .btn { text-align: center; }
+.cart-foot .link-btn { justify-self: start; }
+.cart-foot .hint:empty { display: none; }
+.btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; filter: none; }
+.pay { margin: 4px 0 0; padding: 14px 0 0; border: 0; border-top: 1px solid var(--line-soft); min-width: 0; }
+.pay legend { padding: 0; margin-bottom: 12px; }
+.pay-opts { display: flex; flex-wrap: wrap; gap: 10px 28px; }
+.pay-opt { display: flex; align-items: center; gap: 10px; font-size: 16px; cursor: pointer; }
+.pay-opt input { width: 18px; height: 18px; accent-color: var(--gold); }
+.pay-box { display: grid; gap: 12px; margin-top: 16px; padding: 16px; border: 1px solid var(--line); background: var(--bg); }
+.pay-box p { margin: 0; }
+.pay-row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 14px; }
+.pay-row .v { font-family: var(--font-display); font-size: 20px; line-height: 1.25; overflow-wrap: anywhere; }
+.pay-row .link-btn { font-size: 10.5px; }
+.qris { display: block; width: min(100%, 280px); height: auto; margin-inline: auto; background: #fff; padding: 12px; }
+.qris-prev { display: block; width: min(100%, 220px); height: auto; background: #fff; padding: 10px; }
+
+/* lightbox */
+.lightbox { position: fixed; inset: 0; z-index: 20; background: rgba(8, 14, 11, 0.95); display: grid; place-items: center; padding: max(56px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.lightbox figure { margin: 0; width: min(100%, 760px); display: grid; gap: 14px; justify-items: center; }
+.lb-stage { position: relative; width: min(100%, calc(66vh * 4 / 3)); aspect-ratio: 4 / 3; background: #060c09; border: 1px solid var(--line); }
+.lightbox img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
+.lb-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border: 1px solid var(--line); background: rgba(8, 14, 11, 0.78); color: var(--gold); font-size: 22px; cursor: pointer; display: grid; place-items: center; }
+.lb-prev { left: 8px; } .lb-next { right: 8px; }
+.lb-dots { display: flex; gap: 8px; min-height: 10px; }
+.lb-dots i { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--gold); display: block; }
+.lb-dots i.on { background: var(--gold); }
+.lightbox figcaption { font-family: var(--font-display); font-style: italic; font-size: 24px; color: var(--fg); text-align: center; }
+.lb-close { position: absolute; top: max(16px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* admin */
+#admin { padding-bottom: 32px; }
+.adm-bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--bg); border-bottom: 1px solid var(--line-soft); }
+.adm-bar .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; padding-block: 14px; }
+.adm-title { display: flex; align-items: center; gap: 18px; min-width: 0; }
+.adm-title .logo { width: 104px; }
+.adm-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+.adm-actions .btn { padding: 11px 24px; }
+.dirty { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.dirty[data-on="true"] { color: var(--gold); }
+.adm-status { margin: 20px 0 0; padding: 12px 16px; border: 1px solid var(--line); font-size: 15px; color: var(--fg); }
+.adm-status[data-kind="error"] { border-color: var(--danger); color: var(--danger); }
+.adm-head { padding-block: 40px 8px; }
+.adm-head h1 { font-size: clamp(34px, 5vw, 52px); line-height: 1.05; }
+.adm-head p { margin: 10px 0 0; color: var(--muted); max-width: 60ch; }
+.adm-tabs { margin: 28px 0 28px; border-bottom: 1px solid var(--line-soft); padding-bottom: 12px; }
+.adm-tabs .tabs { margin: 0; }
+.adm-item { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 22px 0; border-top: 1px solid var(--line); }
+.adm-item:last-of-type { border-bottom: 1px solid var(--line); }
+.adm-photos { display: flex; flex-wrap: wrap; gap: 18px; }
+.adm-slot { display: grid; gap: 10px; justify-items: start; align-content: start; width: 108px; }
+.adm-slot .thumb { width: 108px; height: 108px; }
+.adm-slot .empty { width: 108px; height: 108px; display: grid; place-items: center; text-align: center; padding: 6px; border: 1px dashed var(--line); background: none; color: var(--gold); font: inherit; font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; }
+.adm-slot .empty:hover { background: rgba(212, 175, 55, 0.08); }
+.adm-photos-hint { flex-basis: 100%; margin: -6px 0 0; font-size: 13px; color: var(--muted); }
+.photo-btns { display: flex; flex-wrap: wrap; gap: 6px 12px; }
+.badge-n { position: absolute; right: 6px; bottom: 6px; padding: 2px 6px; font-size: 10px; letter-spacing: 0.1em; background: rgba(8, 14, 11, 0.82); color: var(--gold); border: 1px solid var(--line); pointer-events: none; }
+.fav .photo { position: relative; }
+.photo-btns .link-btn { font-size: 10.5px; letter-spacing: 0.14em; }
+.adm-fields { display: grid; gap: 14px; min-width: 0; }
+.row { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
+.fld { display: grid; gap: 6px; min-width: 0; align-content: start; }
+.fld input[type="text"], .fld input[type="number"], .fld input[type="date"], .fld textarea {
+  font: 300 16px/1.5 var(--font-body); color: var(--fg); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 0; padding: 10px 12px; width: 100%; min-width: 0;
+}
+.fld textarea { min-height: 88px; resize: vertical; }
+.fld input:focus-visible, .fld textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.hint { margin: 0; font-size: 13px; color: var(--muted); }
+.check { display: flex; align-items: center; gap: 10px; font-size: 15px; cursor: pointer; }
+.check input { width: 18px; height: 18px; accent-color: var(--gold); }
+.adm-ops { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+.adm-add { margin-top: 28px; }
+.empty { padding: 32px 0; color: var(--muted); }
+.info-group { border-top: 1px solid var(--line); padding-block: 28px 8px; display: grid; gap: 18px; }
+.info-group h3 { font-style: italic; font-size: 28px; color: var(--gold); }
+.info-group .fld { max-width: 640px; }
+
+@media (max-width: 860px) {
+  .about, .order { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .fav { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .items { grid-template-columns: minmax(0, 1fr); }
+  .hero-facts { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .hero { padding-block-start: 48px; }
+  section { padding-block-start: 56px; }
+}
+@media (max-width: 560px) {
+  .item { grid-template-columns: 84px minmax(0, 1fr); gap: 14px; }
+  .thumb { width: 84px; height: 84px; }
+  .thumb svg { width: 50px; height: 50px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="zav-logo" viewBox="12 114 260 55">
+<!--LOGO_PATHS-->
+  </symbol>
+</svg>
+
+<header class="site-only">
+  <div class="wrap bar">
+    <a href="#top" aria-label="Baked By Zav, home">
+      <svg class="logo" viewBox="0 0 260 55" role="img" aria-label="Baked by Zav"><use href="#zav-logo" width="260" height="55"/></svg>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#favourites" id="nav-fav">Favourites</a>
+      <a href="#menu">Menu</a>
+      <a href="#order">Order</a>
+      <button class="nav-cart" id="nav-cart" type="button">Cart<span class="nav-count" data-cart-count hidden>0</span></button>
+      <a href="#admin" id="nav-admin" class="admin-link" hidden>Admin</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap site-only" id="top">
+  <div class="hero">
+    <p class="caps" data-info="eyebrow"></p>
+    <svg class="logo" viewBox="0 0 260 55" role="img" aria-label="Baked by Zav"><use href="#zav-logo" width="260" height="55"/></svg>
+    <p class="tagline" data-info="tagline"></p>
+    <div class="btns">
+      <a class="btn" href="#menu">View the menu</a>
+      <a class="btn ghost" data-wa="Hello Zav, I'd like to pre-order." target="_blank" rel="noopener noreferrer" href="#order">Order on WhatsApp</a>
+    </div>
+    <div class="hero-facts">
+      <p><span class="caps">Pick-up</span><br><span class="v" data-info="hours"></span></p>
+      <p><span class="caps">Reserve by</span><br><span class="v" data-info="reserveBy"></span></p>
+      <p><span class="caps">Custom cakes</span><br><span class="v" data-info="cakeLead"></span></p>
+    </div>
+  </div>
+
+  <div class="orn" aria-hidden="true"><i></i></div>
+
+  <section id="about">
+    <div class="sec-head"><span class="caps">About</span><h2>The baker</h2></div>
+    <div class="about">
+      <p class="statement" id="statement"></p>
+      <div class="about-text">
+        <p data-info="about1"></p>
+        <p data-info="about2"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="favourites">
+    <div class="sec-head"><span class="caps">House favourites</span><h2>Three to begin with</h2></div>
+    <div class="fav" id="fav"></div>
+  </section>
+
+  <section id="menu">
+    <div class="sec-head"><span class="caps">Prices in rupiah</span><h2>The <em>menu</em></h2></div>
+    <div class="frame">
+      <div class="frame-inner">
+        <div class="tabs" id="tabs" role="group" aria-label="Filter menu by category"></div>
+        <div id="menu-list"></div>
+        <p class="menu-note" id="menu-note" data-info="menuNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="order">
+    <div class="sec-head"><span class="caps">Pre-order</span><h2>Reserve your <em>bake</em></h2></div>
+    <div class="order">
+      <div>
+        <p data-info="order1"></p>
+        <p data-info="order2"></p>
+      </div>
+      <div class="contacts">
+        <div class="contact"><div><span class="caps">WhatsApp</span><div class="v" id="c-wa"></div></div><div class="actions"><a class="link-btn" data-wa="Hello Zav, I'd like to order." target="_blank" rel="noopener noreferrer" href="#order">Open WhatsApp</a></div></div>
+        <div class="contact"><div><span class="caps">Instagram</span><div class="v" id="c-ig"></div></div><div class="actions"><a class="link-btn" data-ig target="_blank" rel="noopener noreferrer" href="#order">Open Instagram</a></div></div>
+        <div class="contact"><div><span class="caps">Pick-up</span><div class="v" data-info="pickup"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <svg class="logo" viewBox="0 0 260 55" role="img" aria-label="Baked by Zav"><use href="#zav-logo" width="260" height="55"/></svg>
+    <p><span data-info="footer"></span> <a class="wa-link" data-ig target="_blank" rel="noopener noreferrer" href="#order">Follow on Instagram</a></p>
+  </footer>
+</main>
+
+<div class="float-stack site-only">
+  <button class="cart-float" id="cart-float" type="button" aria-label="Open your cart, 0 items">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8h12l-1 12H7z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg>
+    <span class="cart-badge" data-cart-count hidden>0</span>
+  </button>
+  <a class="ig-float" data-ig target="_blank" rel="noopener noreferrer" href="#order" aria-label="Open Instagram, opens in a new tab">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="0.9" fill="currentColor" stroke="none"/></svg>
+  </a>
+  <a class="wa-float" data-wa="Hello Zav, I'd like to order." target="_blank" rel="noopener noreferrer" href="#order" aria-label="Order on WhatsApp, opens in a new tab">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20l1.4-4.2A8 8 0 1 1 8.3 18.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9.2 8.6c-.3.4-.3 1 0 1.8.9 2.1 2.4 3.6 4.5 4.5.8.3 1.4.3 1.8 0l.9-.9-1.9-1.2-.9.7c-1-.4-1.9-1.3-2.3-2.3l.7-.9-1.2-1.9z" fill="currentColor"/></svg>
+  </a>
+</div>
+
+<div class="cart-overlay site-only" id="cart-overlay" hidden></div>
+<aside class="cart site-only" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
+  <div class="cart-head">
+    <h2 id="cart-title">Your order</h2>
+    <button class="link-btn" id="cart-close" type="button">Close</button>
+  </div>
+  <div class="cart-body">
+    <div class="cart-empty" id="cart-empty">
+      <p>Your cart is empty. Add something from the menu, then send the order to Zav on WhatsApp.</p>
+      <button class="btn ghost" id="cart-browse" type="button">Browse the menu</button>
+    </div>
+    <ul class="cart-list" id="cart-list"></ul>
+    <div id="cart-checkout" hidden>
+      <div class="cart-sum"><span class="caps">Total</span><strong id="cart-total"></strong></div>
+      <div class="cart-fields">
+        <div class="fld"><label class="caps" for="cart-name">Your name</label><input type="text" id="cart-name" autocomplete="name"></div>
+        <div class="fld"><label class="caps" for="cart-date">Pick-up date</label><input type="date" id="cart-date" aria-describedby="cart-hint"><p class="hint" id="cart-hint"></p></div>
+        <div class="fld"><label class="caps" for="cart-note">Notes for the whole order (optional)</label><textarea id="cart-note" rows="2"></textarea></div>
+      </div>
+      <fieldset class="pay" id="cart-pay" hidden>
+        <legend class="caps">Payment</legend>
+        <div class="pay-opts" id="pay-opts"></div>
+        <div id="pay-detail"></div>
+      </fieldset>
+      <p class="hint" id="cart-paynote">No payment is taken on this page. Zav confirms your order and the total on WhatsApp.</p>
+    </div>
+  </div>
+  <div class="cart-foot" id="cart-foot" hidden>
+    <a class="btn" id="cart-send" target="_blank" rel="noopener noreferrer" href="#order">Send order on WhatsApp</a>
+    <button class="btn ghost" id="cart-pdf" type="button">Download invoice (PDF)</button>
+    <p class="hint" id="cart-msg" role="status"></p>
+    <button class="link-btn" id="cart-clear" type="button">Clear cart</button>
+  </div>
+</aside>
+
+<div id="admin" hidden>
+  <div class="adm-bar">
+    <div class="wrap">
+      <div class="adm-title">
+        <svg class="logo" viewBox="0 0 260 55" role="img" aria-label="Baked by Zav"><use href="#zav-logo" width="260" height="55"/></svg>
+        <span class="caps">Admin</span>
+      </div>
+      <div class="adm-actions">
+        <span class="dirty" id="dirty" data-on="false" role="status">All changes saved</span>
+        <button class="link-btn" id="discard" type="button" disabled>Discard changes</button>
+        <a class="link-btn" href="#top">View site</a>
+        <button class="btn" id="save" type="button" disabled>Save changes</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="adm-head">
+      <h1>Edit your site</h1>
+      <p>Change the menu and the words on the page. Nothing goes live until you press Save changes.</p>
+    </div>
+    <p class="adm-status" id="adm-status" role="status" hidden></p>
+    <div class="adm-tabs"><div class="tabs" id="adm-tabs" role="group" aria-label="Admin sections"></div></div>
+    <div id="adm-menu"></div>
+    <div id="adm-info" hidden></div>
+    <div id="adm-pay" hidden></div>
+    <datalist id="cat-list"></datalist>
+    <input type="file" id="photo-input" accept="image/*" hidden>
+    <input type="file" id="qris-input" accept="image/png,image/jpeg,image/webp" hidden>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo" hidden>
+  <button class="link-btn lb-close" id="lb-close" type="button">Close</button>
+  <figure>
+    <div class="lb-stage">
+      <img id="lb-img" alt="">
+      <button class="lb-nav lb-prev" id="lb-prev" type="button" aria-label="Previous photo">&#8249;</button>
+      <button class="lb-nav lb-next" id="lb-next" type="button" aria-label="Next photo">&#8250;</button>
+    </div>
+    <div class="lb-dots" id="lb-dots" aria-hidden="true"></div>
+    <figcaption id="lb-cap"></figcaption>
+  </figure>
+</div>
+
+<script>/*MINIPDF*/</script>
+<script>
+(function () {
+  var DEFAULTS = /*DEFAULTS*/;
+
+  var site = clone(DEFAULTS);   /* what visitors see */
+  var draft = null;             /* what the admin is editing */
+  var dirty = false;
+  var canEdit = false, assetsApi = null, artifactApi = null;
+  var toDelete = [];
+  var current = "All";
+  var adminTab = "menu";
+  var pendingPhotoId = "", pendingSlot = -1;
+  var lastFocus = null;
+
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function str(v) { return typeof v === "string" ? v : ""; }
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+  function rupiah(n) { return "Rp " + Number(n || 0).toLocaleString("id-ID"); }
+  function cats(menu) {
+    var c = [];
+    menu.forEach(function (m) { if (c.indexOf(m.cat) < 0) c.push(m.cat); });
+    return c;
+  }
+  function photoIds(menu) {
+    var o = {};
+    menu.forEach(function (m) { (m.photos || []).forEach(function (id) { o[id] = true; }); });
+    return o;
+  }
+
+  var MAX_PHOTOS = 3;
+  function photoList(m) {
+    var src = Array.isArray(m.photos) ? m.photos : [m.photo];
+    var out = [];
+    src.forEach(function (id) { id = str(id); if (/^[0-9a-f]{32}$/.test(id) && out.indexOf(id) < 0 && out.length < MAX_PHOTOS) out.push(id); });
+    return out;
+  }
+
+  function normalize(d) {
+    var out = clone(DEFAULTS);
+    if (d && typeof d === "object") {
+      if (d.info && typeof d.info === "object") {
+        Object.keys(out.info).forEach(function (k) { if (typeof d.info[k] === "string") out.info[k] = d.info[k]; });
+      }
+      if (Array.isArray(d.menu)) {
+        out.menu = d.menu.filter(function (m) { return m && typeof m === "object"; }).map(function (m, i) {
+          return {
+            id: str(m.id) || ("i" + i + "x"),
+            cat: str(m.cat) || "Menu",
+            name: str(m.name),
+            price: Math.max(0, Math.round(Number(m.price) || 0)),
+            desc: str(m.desc),
+            note: str(m.note),
+            featured: !!m.featured,
+            art: str(m.art) || "generic",
+            photos: photoList(m)
+          };
+        });
+      }
+    }
+    return out;
+  }
+
+  /* ---------- line drawings used until an item has a photo ---------- */
+  function spiral() {
+    var d = "", t;
+    for (t = 0; t <= 5.5 * Math.PI; t += 0.25) {
+      var r = 1.5 + t * 1.07;
+      d += (d ? "L" : "M") + (32 + r * Math.cos(t)).toFixed(1) + " " + (32 + r * Math.sin(t)).toFixed(1);
+    }
+    return '<circle cx="32" cy="32" r="25"/><path d="' + d + '"/>';
+  }
+  var CROISSANT = '<path d="M10 42C10 28 20 18 32 18S54 28 54 42C50 44 47 43 45 40C43 45 38 46 35 43C33 46 29 46 27 43C24 46 19 45 19 40C17 43 13 44 10 42Z"/><path d="M24 21L22 38M32 18V40M40 21L42 38"/>';
+  var ART = {
+    generic: '<circle cx="32" cy="32" r="22"/><circle cx="32" cy="32" r="14"/>',
+    sourdough: '<ellipse cx="32" cy="38" rx="23" ry="15"/><path d="M17 33C23 22 41 21 48 31"/><path d="M24 29l4 10M32 27l3 12M40 29l2 9"/>',
+    rye: '<path d="M9 42C9 29 19 20 32 20s23 9 23 22v5H9z"/><path d="M21 31l3 7M32 28l3 8M43 31l3 7"/>',
+    buns: '<circle cx="21" cy="22" r="10"/><circle cx="43" cy="22" r="10"/><circle cx="21" cy="44" r="10"/><circle cx="43" cy="44" r="10"/>',
+    focaccia: '<rect x="8" y="15" width="48" height="34" rx="5"/><circle cx="20" cy="26" r="2"/><circle cx="32" cy="26" r="2"/><circle cx="44" cy="26" r="2"/><circle cx="26" cy="38" r="2"/><circle cx="38" cy="38" r="2"/>',
+    croissant: CROISSANT,
+    painchoc: '<rect x="9" y="20" width="46" height="26" rx="13"/><path d="M22 22v22M32 21v24M42 22v22"/>',
+    almond: CROISSANT + '<ellipse cx="24" cy="12" rx="3.5" ry="1.8" transform="rotate(-25 24 12)"/><ellipse cx="34" cy="9" rx="3.5" ry="1.8"/><ellipse cx="44" cy="12" rx="3.5" ry="1.8" transform="rotate(25 44 12)"/>',
+    roll: spiral(),
+    cheesecake: '<path d="M9 28c0-4 10-7 23-7s23 3 23 7v18c0 4-10 7-23 7S9 50 9 46z"/><path d="M9 28c0 4 10 7 23 7s23-3 23-7"/><path d="M20 27l4 1M30 29h5M41 27l4 1"/>',
+    cake: '<circle cx="32" cy="12" r="3"/><path d="M12 25c0-3 9-5 20-5s20 2 20 5v22c0 3-9 5-20 5s-20-2-20-5z"/><path d="M12 25c0 3 9 5 20 5s20-2 20-5"/><path d="M12 34c0 3 9 5 20 5s20-2 20-5"/><path d="M12 43c0 3 9 5 20 5s20-2 20-5"/>',
+    banana: '<path d="M8 40c0-9 4-15 10-15h28c6 0 10 6 10 15v8H8z"/><path d="M16 31c9-3 23-3 32 0"/><path d="M21 33v15M32 33v15M43 33v15"/>',
+    brownie: '<rect x="9" y="33" width="21" height="16" rx="2"/><rect x="34" y="33" width="21" height="16" rx="2"/><rect x="21.5" y="14" width="21" height="16" rx="2"/><path d="M15 38l5 3M40 38l5 3M28 19l5 3"/>',
+    latte: '<path d="M19 16h26l-3 36a3 3 0 0 1-3 3H25a3 3 0 0 1-3-3z"/><path d="M21 30h22M22 41h20"/><path d="M39 5l-5 23"/>',
+    tea: '<path d="M14 30h28v10a13 13 0 0 1-13 13h-2a13 13 0 0 1-13-13z"/><path d="M42 34h4a5 5 0 0 1 0 10h-4"/><path d="M21 25c0-3 3-3 3-6M30 25c0-3 3-3 3-6"/>'
+  };
+  function drawing(key) {
+    return '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + (ART[key] || ART.generic) + '</svg>';
+  }
+
+  /* ---------- contact links ---------- */
+  function waDigits(s) {
+    var d = String(s || "").replace(/\D/g, "");
+    if (d.charAt(0) === "0") d = "62" + d.slice(1);
+    return d;
+  }
+  function igHandle(s) {
+    return String(s || "").trim().replace(/^https?:\/\/(www\.)?instagram\.com\//i, "").replace(/^@/, "").replace(/[^A-Za-z0-9._].*$/, "");
+  }
+  function waLink(text) { return "https://wa.me/" + waDigits(site.info.whatsapp) + "?text=" + encodeURIComponent(text); }
+  function igLink() { return "https://www.instagram.com/" + igHandle(site.info.instagram) + "/"; }
+
+  /* ---------- lightbox ---------- */
+  var lightbox = $("lightbox"), lbImg = $("lb-img"), lbCap = $("lb-cap"), lbClose = $("lb-close");
+  var lbPrev = $("lb-prev"), lbNext = $("lb-next"), lbDots = $("lb-dots");
+  var lbIds = [], lbAt = 0, lbName = "";
+  function showLb() {
+    lbImg.src = "/_blob/" + lbIds[lbAt];
+    lbImg.alt = lbName + (lbIds.length > 1 ? ", photo " + (lbAt + 1) + " of " + lbIds.length : "");
+    lbCap.textContent = lbName;
+    lbPrev.hidden = lbNext.hidden = lbIds.length < 2;
+    lbDots.innerHTML = "";
+    if (lbIds.length > 1) lbIds.forEach(function (_, i) { lbDots.appendChild(el("i", i === lbAt ? "on" : "")); });
+  }
+  function stepLb(d) { if (lbIds.length < 2) return; lbAt = (lbAt + d + lbIds.length) % lbIds.length; showLb(); }
+  function openLightbox(name, ids, opener) {
+    lastFocus = opener;
+    lbIds = ids.slice(); lbAt = 0; lbName = name; showLb();
+    lightbox.hidden = false; lbClose.focus();
+  }
+  function closeLightbox() {
+    lightbox.hidden = true; lbImg.removeAttribute("src");
+    if (lastFocus) lastFocus.focus();
+  }
+  lbPrev.addEventListener("click", function () { stepLb(-1); });
+  lbNext.addEventListener("click", function () { stepLb(1); });
+  lbClose.addEventListener("click", closeLightbox);
+  lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener("keydown", function (e) {
+    if (lightbox.hidden) return;
+    if (e.key === "Escape") closeLightbox();
+    else if (e.key === "ArrowLeft") stepLb(-1);
+    else if (e.key === "ArrowRight") stepLb(1);
+  });
+
+  /* ---------- public page ---------- */
+  function richInto(node, text) {
+    node.textContent = "";
+    String(text).split(/\*([^*]+)\*/).forEach(function (part, i) {
+      if (!part) return;
+      if (i % 2) { var e = document.createElement("em"); e.textContent = part; node.appendChild(e); }
+      else node.appendChild(document.createTextNode(part));
+    });
+  }
+
+  function renderInfo() {
+    document.querySelectorAll("[data-info]").forEach(function (n) {
+      var v = site.info[n.dataset.info] || "";
+      n.textContent = v;
+      if (n.id === "menu-note") n.hidden = !v;
+    });
+    richInto($("statement"), site.info.statement);
+    $("c-wa").textContent = site.info.whatsapp;
+    $("c-ig").textContent = igHandle(site.info.instagram) ? "@" + igHandle(site.info.instagram) : "";
+    document.querySelectorAll("[data-wa]").forEach(function (a) { a.href = waLink(a.dataset.wa); });
+    document.querySelectorAll("[data-ig]").forEach(function (a) { a.href = igLink(); });
+  }
+
+  function renderFav() {
+    var box = $("fav");
+    var items = site.menu.filter(function (m) { return m.featured; }).slice(0, 3);
+    $("favourites").hidden = !items.length;
+    $("nav-fav").hidden = !items.length;
+    box.innerHTML = "";
+    items.forEach(function (m) {
+      var a = el("article");
+      if (m.photos.length) {
+        var z = el("button", "zoom photo");
+        z.type = "button";
+        z.setAttribute("aria-label", (m.photos.length > 1 ? "View photos of " : "View photo of ") + m.name);
+        var img = document.createElement("img");
+        img.alt = ""; img.loading = "lazy"; img.src = "/_blob/" + m.photos[0];
+        z.appendChild(img);
+        if (m.photos.length > 1) z.appendChild(el("span", "badge-n", "1/" + m.photos.length));
+        z.addEventListener("click", function () { openLightbox(m.name, m.photos, z); });
+        a.appendChild(z);
+      } else {
+        var art = el("div", "art"); art.innerHTML = drawing(m.art); a.appendChild(art);
+      }
+      a.appendChild(el("h3", "", m.name));
+      a.appendChild(el("p", "", m.desc));
+      a.appendChild(el("span", "price", rupiah(m.price)));
+      box.appendChild(a);
+    });
+  }
+
+  function fillThumb(thumb, m, skipPhoto) {
+    thumb.innerHTML = "";
+    if (m.photos.length && !skipPhoto) {
+      var z = el("button", "zoom");
+      z.type = "button";
+      z.setAttribute("aria-label", (m.photos.length > 1 ? "View photos of " : "View photo of ") + m.name);
+      var img = document.createElement("img");
+      img.alt = ""; img.loading = "lazy"; img.src = "/_blob/" + m.photos[0];
+      img.addEventListener("error", function () { fillThumb(thumb, m, true); });
+      z.appendChild(img);
+      if (m.photos.length > 1) z.appendChild(el("span", "badge-n", "1/" + m.photos.length));
+      z.addEventListener("click", function () { openLightbox(m.name, m.photos, z); });
+      thumb.appendChild(z);
+    } else {
+      var d = el("div", "draw"); d.innerHTML = drawing(m.art); thumb.appendChild(d);
+    }
+  }
+
+  var tabs = $("tabs"), list = $("menu-list");
+  function renderTabs() {
+    var all = ["All"].concat(cats(site.menu));
+    if (all.indexOf(current) < 0) current = "All";
+    tabs.innerHTML = "";
+    all.forEach(function (c) {
+      var b = el("button", "tab", c);
+      b.type = "button"; b.dataset.cat = c;
+      b.setAttribute("aria-pressed", c === current ? "true" : "false");
+      b.addEventListener("click", function () { current = c; renderTabs(); renderMenu(); });
+      tabs.appendChild(b);
+    });
+  }
+  function renderMenu() {
+    list.innerHTML = "";
+    ctlNodes = {};
+    if (!site.menu.length) { list.appendChild(el("p", "menu-note", "The menu is being updated. Please check back soon.")); return; }
+    (current === "All" ? cats(site.menu) : [current]).forEach(function (cat) {
+      var sec = el("div", "cat");
+      var head = el("div", "cat-head");
+      head.appendChild(el("h3", "", cat));
+      sec.appendChild(head);
+      var grid = el("div", "items");
+      site.menu.filter(function (m) { return m.cat === cat; }).forEach(function (m) {
+        var it = el("div", "item");
+        var thumb = el("div", "thumb");
+        fillThumb(thumb, m);
+        var body = el("div", "item-body");
+        var top = el("div", "item-top");
+        top.appendChild(el("h4", "", m.name));
+        top.appendChild(el("span", "lead"));
+        top.appendChild(el("span", "price", rupiah(m.price)));
+        body.appendChild(top);
+        if (m.desc) body.appendChild(el("p", "", m.desc));
+        var foot = el("div", "item-foot");
+        if (m.note) foot.appendChild(el("span", "note", m.note));
+        var ctl = el("div", "item-ctl");
+        ctlNodes[m.id] = ctl;
+        buildCtl(ctl, m, "");
+        foot.appendChild(ctl);
+        body.appendChild(foot);
+        it.appendChild(thumb);
+        it.appendChild(body);
+        grid.appendChild(it);
+      });
+      sec.appendChild(grid);
+      list.appendChild(sec);
+    });
+  }
+  function renderSite() {
+    renderInfo(); renderFav(); renderTabs(); renderMenu();
+    renderCartBadges();
+    if (!cartEl.hidden) renderCart(null);
+  }
+
+  /* ---------- admin ---------- */
+  var admin = $("admin"), admMenu = $("adm-menu"), admInfo = $("adm-info"), admPay = $("adm-pay"), admTabs = $("adm-tabs");
+  var admStatus = $("adm-status"), dirtyEl = $("dirty"), saveBtn = $("save"), discardBtn = $("discard");
+  var fileInput = $("photo-input");
+
+  function setStatus(t, kind) {
+    admStatus.textContent = t || "";
+    admStatus.hidden = !t;
+    admStatus.setAttribute("data-kind", kind || "info");
+  }
+  function refreshBar() {
+    dirtyEl.textContent = dirty ? "Unsaved changes" : "All changes saved";
+    dirtyEl.setAttribute("data-on", dirty ? "true" : "false");
+    saveBtn.disabled = !dirty;
+    discardBtn.disabled = !dirty;
+  }
+  function stash() { try { sessionStorage.setItem("zav-draft", JSON.stringify(draft)); } catch (e) {} }
+  function unstash() { try { sessionStorage.removeItem("zav-draft"); } catch (e) {} }
+  function markDirty() { dirty = true; refreshBar(); stash(); }
+
+  function arm(btn, armedLabel, run) {
+    var base = btn.textContent, t;
+    btn.addEventListener("click", function () {
+      if (btn.dataset.armed) { clearTimeout(t); delete btn.dataset.armed; btn.textContent = base; run(); }
+      else {
+        btn.dataset.armed = "1"; btn.textContent = armedLabel;
+        t = setTimeout(function () { delete btn.dataset.armed; btn.textContent = base; }, 4000);
+      }
+    });
+  }
+
+  function field(id, labelText, control, hint) {
+    var w = el("div", "fld");
+    var l = el("label", "caps", labelText); l.htmlFor = id;
+    w.appendChild(l); w.appendChild(control);
+    if (hint) { var h = el("p", "hint", hint); h.id = id + "-hint"; control.setAttribute("aria-describedby", h.id); w.appendChild(h); }
+    return w;
+  }
+  function textInput(id, type, value, onInput) {
+    var i = document.createElement("input");
+    i.type = type; i.id = id; i.value = value;
+    if (type === "number") { i.min = "0"; i.step = "500"; i.inputMode = "numeric"; }
+    i.addEventListener("input", function () { onInput(i.value); });
+    return i;
+  }
+  function areaInput(id, value, rows, onInput) {
+    var a = document.createElement("textarea");
+    a.id = id; a.rows = rows || 3; a.value = value;
+    a.addEventListener("input", function () { onInput(a.value); });
+    return a;
+  }
+
+  function adminThumb(m, id) {
+    var thumb = el("div", "thumb");
+    if (id) {
+      var img = document.createElement("img");
+      img.alt = ""; img.src = "/_blob/" + id;
+      img.addEventListener("error", function () { thumb.innerHTML = '<div class="draw">' + drawing(m.art) + "</div>"; });
+      thumb.appendChild(img);
+    } else {
+      var d = el("div", "draw"); d.innerHTML = drawing(m.art); thumb.appendChild(d);
+    }
+    return thumb;
+  }
+
+  function focusOp(id, op) {
+    var n = admMenu.querySelector('[data-id="' + id + '"] [data-op="' + op + '"]');
+    if (n && !n.disabled) n.focus();
+  }
+
+  function itemCard(m, idx, total) {
+    var card = el("article", "adm-item");
+    card.dataset.id = m.id;
+
+    var ph = el("div", "adm-photos");
+    m.photos.forEach(function (id, k) {
+      var slot = el("div", "adm-slot");
+      slot.appendChild(adminThumb(m, id));
+      var pb = el("div", "photo-btns");
+      var rp = el("button", "link-btn", "Replace");
+      rp.type = "button"; rp.dataset.op = "photo" + k;
+      rp.setAttribute("aria-label", "Replace photo " + (k + 1) + " of " + (m.name || "this item"));
+      rp.addEventListener("click", function () { pendingPhotoId = m.id; pendingSlot = k; fileInput.value = ""; fileInput.click(); });
+      var rm = el("button", "link-btn", "Remove");
+      rm.type = "button"; rm.dataset.op = "rmphoto" + k;
+      rm.setAttribute("aria-label", "Remove photo " + (k + 1) + " of " + (m.name || "this item"));
+      rm.addEventListener("click", function () {
+        toDelete.push(id); m.photos.splice(k, 1); markDirty(); renderAdminMenu(); focusOp(m.id, "photo" + Math.min(k, m.photos.length - 1));
+      });
+      pb.appendChild(rp); pb.appendChild(rm);
+      slot.appendChild(pb);
+      ph.appendChild(slot);
+    });
+    if (m.photos.length < MAX_PHOTOS) {
+      var ad = el("button", "empty", m.photos.length ? "+ Add photo" : "Add photo");
+      ad.type = "button"; ad.dataset.op = "photo" + m.photos.length;
+      ad.setAttribute("aria-label", "Add photo to " + (m.name || "this item") + ", " + m.photos.length + " of " + MAX_PHOTOS + " used");
+      ad.addEventListener("click", function () { pendingPhotoId = m.id; pendingSlot = -1; fileInput.value = ""; fileInput.click(); });
+      var slot2 = el("div", "adm-slot"); slot2.appendChild(ad); ph.appendChild(slot2);
+    }
+    ph.appendChild(el("p", "adm-photos-hint", "Up to " + MAX_PHOTOS + " photos. Every photo is shown in the same frame, so the first one is the cover."));
+    card.appendChild(ph);
+
+    var f = el("div", "adm-fields");
+    var r1 = el("div", "row");
+    var pid = "f-" + m.id;
+    r1.appendChild(field(pid + "-name", "Name", textInput(pid + "-name", "text", m.name, function (v) { m.name = v; markDirty(); })));
+    var cat = textInput(pid + "-cat", "text", m.cat, function (v) { m.cat = v; markDirty(); });
+    cat.setAttribute("list", "cat-list");
+    r1.appendChild(field(pid + "-cat", "Category", cat));
+    r1.appendChild(field(pid + "-price", "Price (Rp)", textInput(pid + "-price", "number", String(m.price), function (v) { m.price = Math.max(0, Math.round(Number(v) || 0)); markDirty(); })));
+    f.appendChild(r1);
+    f.appendChild(field(pid + "-desc", "Description", areaInput(pid + "-desc", m.desc, 2, function (v) { m.desc = v; markDirty(); })));
+    var r2 = el("div", "row");
+    r2.appendChild(field(pid + "-note", "Label (optional)", textInput(pid + "-note", "text", m.note, function (v) { m.note = v; markDirty(); }), "A short tag such as Sells out first or Two days ahead."));
+    var cw = el("div", "fld");
+    var cl = el("label", "check");
+    var cb = document.createElement("input");
+    cb.type = "checkbox"; cb.checked = !!m.featured;
+    cb.addEventListener("change", function () { m.featured = cb.checked; markDirty(); });
+    cl.appendChild(cb); cl.appendChild(document.createTextNode("Show in House favourites"));
+    cw.appendChild(cl);
+    cw.appendChild(el("p", "hint", "The first three ticked items appear near the top of the page."));
+    r2.appendChild(cw);
+    f.appendChild(r2);
+
+    var ops = el("div", "adm-ops");
+    var up = el("button", "link-btn", "Move up");
+    up.type = "button"; up.dataset.op = "up"; up.disabled = idx === 0;
+    up.setAttribute("aria-label", "Move " + (m.name || "item") + " up");
+    up.addEventListener("click", function () { swap(idx, idx - 1); focusOp(m.id, "up"); });
+    var dn = el("button", "link-btn", "Move down");
+    dn.type = "button"; dn.dataset.op = "down"; dn.disabled = idx === total - 1;
+    dn.setAttribute("aria-label", "Move " + (m.name || "item") + " down");
+    dn.addEventListener("click", function () { swap(idx, idx + 1); focusOp(m.id, "down"); });
+    var del = el("button", "link-btn danger", "Delete item");
+    del.type = "button"; del.dataset.op = "del";
+    del.setAttribute("aria-label", "Delete " + (m.name || "item"));
+    arm(del, "Press again to delete", function () {
+      (m.photos || []).forEach(function (id) { toDelete.push(id); });
+      draft.menu = draft.menu.filter(function (x) { return x.id !== m.id; });
+      markDirty(); renderAdminMenu(); setStatus("Deleted " + (m.name || "the item") + ". Press Save changes to publish.");
+    });
+    ops.appendChild(up); ops.appendChild(dn); ops.appendChild(del);
+    f.appendChild(ops);
+    card.appendChild(f);
+    return card;
+  }
+
+  function swap(a, b) {
+    if (b < 0 || b >= draft.menu.length) return;
+    var t = draft.menu[a]; draft.menu[a] = draft.menu[b]; draft.menu[b] = t;
+    markDirty(); renderAdminMenu();
+  }
+
+  function renderAdminMenu() {
+    var dl = $("cat-list");
+    dl.innerHTML = "";
+    cats(draft.menu).forEach(function (c) { var o = document.createElement("option"); o.value = c; dl.appendChild(o); });
+    admMenu.innerHTML = "";
+    if (!draft.menu.length) admMenu.appendChild(el("p", "empty", "The menu is empty. Add your first item."));
+    draft.menu.forEach(function (m, i) { admMenu.appendChild(itemCard(m, i, draft.menu.length)); });
+    var add = el("button", "btn ghost adm-add", "Add menu item");
+    add.type = "button";
+    add.addEventListener("click", function () {
+      var last = draft.menu.length ? draft.menu[draft.menu.length - 1].cat : "Bread";
+      var m = { id: "n" + Date.now().toString(36), cat: last, name: "", price: 0, desc: "", note: "", featured: false, art: "generic", photos: [] };
+      draft.menu.push(m); markDirty(); renderAdminMenu();
+      var n = $("f-" + m.id + "-name"); if (n) { n.focus(); n.scrollIntoView({ block: "center" }); }
+    });
+    admMenu.appendChild(add);
+  }
+
+  var INFO_FIELDS = [
+    { group: "Homepage", key: "eyebrow", label: "Line above the logo" },
+    { key: "tagline", label: "Tagline" },
+    { group: "Pick-up and ordering", key: "hours", label: "Pick-up hours" },
+    { key: "reserveBy", label: "Reserve by" },
+    { key: "cakeLead", label: "Custom cake lead time" },
+    { key: "order1", label: "Ordering paragraph 1", area: true },
+    { key: "order2", label: "Ordering paragraph 2", area: true },
+    { group: "About the baker", key: "statement", label: "Big statement", area: true, hint: "Put *asterisks* around words you want shown in gold." },
+    { key: "about1", label: "About paragraph 1", area: true },
+    { key: "about2", label: "About paragraph 2", area: true },
+    { group: "Contact", key: "whatsapp", label: "WhatsApp number", hint: "Include the country code, for example +62 812 3456 7890." },
+    { key: "instagram", label: "Instagram handle", hint: "Without the @, for example bakedbyzav." },
+    { key: "pickup", label: "Pick-up location" },
+    { group: "Menu and footer", key: "menuNote", label: "Note under the menu", hint: "Leave empty to hide it." },
+    { key: "footer", label: "Footer line" }
+  ];
+  function renderAdminInfo() {
+    admInfo.innerHTML = "";
+    var box = null;
+    INFO_FIELDS.forEach(function (f) {
+      if (f.group) { box = el("div", "info-group"); box.appendChild(el("h3", "", f.group)); admInfo.appendChild(box); }
+      var id = "info-" + f.key;
+      var ctl = f.area
+        ? areaInput(id, draft.info[f.key], 3, function (v) { draft.info[f.key] = v; markDirty(); })
+        : textInput(id, "text", draft.info[f.key], function (v) { draft.info[f.key] = v; markDirty(); });
+      box.appendChild(field(id, f.label, ctl, f.hint));
+    });
+  }
+
+  var QRIS_TYPES = ["image/png", "image/jpeg", "image/webp"];
+  function validAsset(id) { return /^[0-9a-f]{32}$/.test(str(id)); }
+
+  function renderAdminPay() {
+    admPay.innerHTML = "";
+    var intro = el("div", "info-group");
+    intro.appendChild(el("h3", "", "How payment works"));
+    intro.appendChild(el("p", "hint", "Customers pick a method in their cart and see the details below with the exact amount. The money goes straight to your account. This page cannot see or confirm payments, so check your bank or e-wallet and confirm with the customer on WhatsApp. Anyone who opens the cart can see these details."));
+    admPay.appendChild(intro);
+
+    var bank = el("div", "info-group");
+    bank.appendChild(el("h3", "", "Bank transfer"));
+    [["bankName", "Bank name", "For example Bank Central Asia (BCA). Fill in the bank name and account number to turn bank transfer on."],
+     ["bankNumber", "Account number", ""],
+     ["bankHolder", "Account holder name", ""]].forEach(function (f) {
+      var id = "pay-" + f[0];
+      bank.appendChild(field(id, f[1], textInput(id, "text", draft.info[f[0]], function (v) { draft.info[f[0]] = v; markDirty(); }), f[2]));
+    });
+    admPay.appendChild(bank);
+
+    var q = el("div", "info-group");
+    q.appendChild(el("h3", "", "QRIS"));
+    q.appendChild(el("p", "hint", "Upload your shop's QRIS image from your payment provider or bank app. Customers scan it with any banking or e-wallet app. Use the original image so the code stays sharp."));
+    if (validAsset(draft.info.qris)) {
+      var img = document.createElement("img");
+      img.className = "qris-prev"; img.alt = "Your QRIS code"; img.src = "/_blob/" + draft.info.qris;
+      q.appendChild(img);
+    } else {
+      q.appendChild(el("p", "empty", "No QRIS image yet. QRIS stays hidden from customers until you upload one."));
+    }
+    var row = el("div", "adm-ops");
+    var up = el("button", "link-btn", validAsset(draft.info.qris) ? "Replace QRIS image" : "Upload QRIS image");
+    up.type = "button"; up.dataset.op = "qris";
+    up.addEventListener("click", function () { $("qris-input").value = ""; $("qris-input").click(); });
+    row.appendChild(up);
+    if (validAsset(draft.info.qris)) {
+      var rm = el("button", "link-btn", "Remove");
+      rm.type = "button";
+      rm.addEventListener("click", function () {
+        toDelete.push(draft.info.qris); draft.info.qris = ""; markDirty(); renderAdminPay();
+        var b = admPay.querySelector('[data-op="qris"]'); if (b) b.focus();
+      });
+      row.appendChild(rm);
+    }
+    q.appendChild(row);
+    admPay.appendChild(q);
+
+    var note = el("div", "info-group");
+    note.appendChild(el("h3", "", "Instructions"));
+    note.appendChild(field("pay-note", "Payment note (optional)", areaInput("pay-note", draft.info.payNote, 3, function (v) { draft.info.payNote = v; markDirty(); }), "Shown under the payment details, for example when to pay."));
+    admPay.appendChild(note);
+  }
+
+  $("qris-input").addEventListener("change", function () {
+    var f = this.files && this.files[0];
+    if (!f || !assetsApi) return;
+    if (QRIS_TYPES.indexOf(f.type) < 0) { setStatus("Use a PNG, JPG or WebP image for the QRIS code.", "error"); return; }
+    setStatus("Uploading the QRIS image…");
+    assetsApi.upload(f, { type: f.type }).then(function (r) {
+      if (validAsset(draft.info.qris)) toDelete.push(draft.info.qris);
+      draft.info.qris = r.id; markDirty(); renderAdminPay();
+      var b = admPay.querySelector('[data-op="qris"]'); if (b) b.focus();
+      setStatus("QRIS image added. Press Save changes to publish it.");
+    }).catch(fail);
+  });
+
+  function renderAdminTabs() {
+    admTabs.innerHTML = "";
+    [["menu", "Menu items"], ["info", "Site info"], ["pay", "Payment"]].forEach(function (t) {
+      var b = el("button", "tab", t[1]);
+      b.type = "button";
+      b.setAttribute("aria-pressed", adminTab === t[0] ? "true" : "false");
+      b.addEventListener("click", function () { adminTab = t[0]; renderAdminTabs(); showTab(); });
+      admTabs.appendChild(b);
+    });
+  }
+  function showTab() { admMenu.hidden = adminTab !== "menu"; admInfo.hidden = adminTab !== "info"; admPay.hidden = adminTab !== "pay"; }
+
+  function renderAdmin() { renderAdminTabs(); renderAdminMenu(); renderAdminInfo(); renderAdminPay(); showTab(); refreshBar(); }
+
+  function openAdmin() {
+    if (!draft) {
+      draft = clone(site);
+      var s = null;
+      try { s = sessionStorage.getItem("zav-draft"); } catch (e) {}
+      if (s) {
+        try {
+          var d = normalize(JSON.parse(s));
+          if (JSON.stringify(d) !== JSON.stringify(site)) { draft = d; dirty = true; setStatus("Your unsaved changes from earlier were restored. Press Save changes to publish them."); }
+        } catch (e) {}
+      }
+      renderAdmin();
+    }
+    closeCart(false);
+    document.body.classList.add("is-admin");
+    admin.hidden = false;
+    window.scrollTo(0, 0);
+  }
+  function closeAdmin() { document.body.classList.remove("is-admin"); admin.hidden = true; }
+  function route() { if (location.hash === "#admin" && canEdit) openAdmin(); else closeAdmin(); }
+  window.addEventListener("hashchange", route);
+
+  function deleteAssets(ids) {
+    ids.forEach(function (id) { if (assetsApi) assetsApi.delete(id).catch(function () {}); });
+  }
+
+  discardBtn.addEventListener("click", function () {
+    if (!dirty) return;
+    var keep = photoIds(site.menu), orphans = [];
+    Object.keys(photoIds(draft.menu)).forEach(function (id) { if (!keep[id]) orphans.push(id); });
+    if (validAsset(draft.info.qris) && draft.info.qris !== site.info.qris) orphans.push(draft.info.qris);
+    deleteAssets(orphans);
+    draft = clone(site); toDelete = []; dirty = false; unstash();
+    renderAdmin(); setStatus("Discarded. The editor matches the live page again.");
+  });
+
+  function shrink(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file), img = new Image();
+      img.onload = function () {
+        var s = Math.min(1, 1000 / Math.max(img.naturalWidth, img.naturalHeight));
+        var c = document.createElement("canvas");
+        c.width = Math.max(1, Math.round(img.naturalWidth * s));
+        c.height = Math.max(1, Math.round(img.naturalHeight * s));
+        var ctx = c.getContext("2d");
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, c.width, c.height);
+        ctx.drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        c.toBlob(function (b) { if (b) resolve(b); else reject({ code: "decode" }); }, "image/jpeg", 0.86);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject({ code: "decode" }); };
+      img.src = url;
+    });
+  }
+
+  fileInput.addEventListener("change", function () {
+    var f = fileInput.files && fileInput.files[0];
+    var item = draft && draft.menu.filter(function (m) { return m.id === pendingPhotoId; })[0];
+    if (!f || !item || !assetsApi) return;
+    setStatus("Adding the photo of " + (item.name || "the item") + "…");
+    shrink(f)
+      .then(function (blob) { return assetsApi.upload(blob, { type: "image/jpeg" }); })
+      .then(function (r) {
+        if (pendingSlot >= 0 && item.photos[pendingSlot]) { toDelete.push(item.photos[pendingSlot]); item.photos[pendingSlot] = r.id; }
+        else if (item.photos.length < MAX_PHOTOS) item.photos.push(r.id);
+        else { toDelete.push(r.id); setStatus("That item already has " + MAX_PHOTOS + " photos.", "error"); return; }
+        markDirty(); renderAdminMenu(); focusOp(item.id, "photo" + Math.min(pendingSlot >= 0 ? pendingSlot : item.photos.length - 1, item.photos.length - 1));
+        setStatus("Photo added. Press Save changes to publish it.");
+      })
+      .catch(fail);
+  });
+
+  function fail(err) {
+    var code = err && err.code;
+    if (code === "conflict") { setStatus("The page was republished somewhere else, so it is reloading. Your changes are kept and will come back in this tab.", "error"); return; }
+    if (code === "not_writer" || code === "not_granted" || code === "not_declared") { canEdit = false; $("nav-admin").hidden = true; setStatus("This view can't save changes. Open the page from your own account to edit it.", "error"); return; }
+    if (code === "capability_disabled") { setStatus("Saving is switched off while the page is shared with a public link. Set the page back to private, save your changes, then share it again.", "error"); return; }
+    if (code === "decode") { setStatus("That file could not be read as a picture. Try a JPG or PNG.", "error"); return; }
+    if (code === "too_large" || code === "quota_or_state") { setStatus("That could not be stored because it is too large. Try a smaller picture.", "error"); return; }
+    if (code === "rate_limited") { setStatus("Too many saves in a row. Wait a moment and try again.", "error"); return; }
+    setStatus("Something went wrong. Your changes are still here. Try again in a moment.", "error");
+  }
+
+  function validate() {
+    for (var i = 0; i < draft.menu.length; i++) {
+      var m = draft.menu[i];
+      if (!m.name.trim()) return "Menu item " + (i + 1) + " needs a name.";
+      if (!m.cat.trim()) return "“" + m.name.trim() + "” needs a category.";
+    }
+    return "";
+  }
+
+  saveBtn.addEventListener("click", function () {
+    if (!dirty || !artifactApi) return;
+    var problem = validate();
+    if (problem) { adminTab = "menu"; renderAdminTabs(); showTab(); setStatus(problem, "error"); return; }
+    draft.menu.forEach(function (m) { m.name = m.name.trim(); m.cat = m.cat.trim(); });
+    saveBtn.disabled = true;
+    setStatus("Saving…");
+    var payload = JSON.stringify(draft);
+    artifactApi.publish({ "site.json": payload }).then(function () {
+      site = normalize(JSON.parse(payload));
+      var keep = {};
+      Object.keys(photoIds(site.menu)).forEach(function (id) { keep[id] = true; });
+      if (validAsset(site.info.qris)) keep[site.info.qris] = true;
+      deleteAssets(toDelete.filter(function (id) { return !keep[id]; }));
+      toDelete = []; dirty = false; unstash();
+      renderSite(); refreshBar();
+      setStatus("Saved. The public page now shows these changes.");
+    }).catch(function (e) { refreshBar(); fail(e); });
+  });
+
+  /* ---------- cart ---------- */
+  var CART_KEY = "zav-cart", FORM_KEY = "zav-cart-form", NOTES_KEY = "zav-cart-notes";
+  var cartQty = {};
+  var itemNotes = {};
+  var cartForm = { name: "", date: "", note: "", pay: "" };
+  var ctlNodes = {};
+  var cartEl = $("cart"), cartOverlay = $("cart-overlay"), cartList = $("cart-list");
+  var cartSend = $("cart-send"), cartMsg = $("cart-msg"), lastCartFocus = null;
+
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  function todayISO() { var d = new Date(); return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
+  function loadCart() {
+    try {
+      var o = JSON.parse(localStorage.getItem(CART_KEY) || "{}");
+      if (o && typeof o === "object") Object.keys(o).forEach(function (k) {
+        var q = Math.round(Number(o[k]));
+        if (q > 0) cartQty[k] = Math.min(q, 99);
+      });
+    } catch (e) {}
+    try {
+      var f = JSON.parse(localStorage.getItem(FORM_KEY) || "{}");
+      if (f && typeof f === "object") {
+        cartForm.name = str(f.name).slice(0, 80);
+        cartForm.note = str(f.note).slice(0, 400);
+        cartForm.pay = str(f.pay).slice(0, 10);
+        cartForm.date = /^\d{4}-\d{2}-\d{2}$/.test(str(f.date)) && f.date >= todayISO() ? f.date : "";
+      }
+    } catch (e) {}
+    try {
+      var nn = JSON.parse(localStorage.getItem(NOTES_KEY) || "{}");
+      if (nn && typeof nn === "object") Object.keys(nn).forEach(function (k) {
+        if (cartQty[k] && typeof nn[k] === "string") itemNotes[k] = nn[k].slice(0, 140);
+      });
+    } catch (e) {}
+    $("cart-name").value = cartForm.name;
+    $("cart-note").value = cartForm.note;
+    $("cart-date").min = todayISO();
+    $("cart-date").value = cartForm.date;
+  }
+  function persistCart() { try { localStorage.setItem(CART_KEY, JSON.stringify(cartQty)); } catch (e) {} }
+  function persistNotes() { try { localStorage.setItem(NOTES_KEY, JSON.stringify(itemNotes)); } catch (e) {} }
+  function persistForm() { try { localStorage.setItem(FORM_KEY, JSON.stringify(cartForm)); } catch (e) {} }
+
+  function menuItem(id) {
+    for (var i = 0; i < site.menu.length; i++) if (site.menu[i].id === id) return site.menu[i];
+    return null;
+  }
+  function cartLines() {
+    return site.menu.filter(function (m) { return cartQty[m.id] > 0 && m.name; })
+      .map(function (m) { return { m: m, q: cartQty[m.id] }; });
+  }
+  function cartCount() { return cartLines().reduce(function (s, l) { return s + l.q; }, 0); }
+  function cartTotal() { return cartLines().reduce(function (s, l) { return s + l.q * l.m.price; }, 0); }
+
+  function stepper(name, q, change) {
+    var w = el("div", "stepper");
+    w.setAttribute("role", "group");
+    w.setAttribute("aria-label", "Quantity of " + name);
+    var dec = el("button", "", "−");
+    dec.type = "button"; dec.dataset.act = "dec";
+    dec.setAttribute("aria-label", "Remove one " + name);
+    var n = el("span", "qty", String(q));
+    var inc = el("button", "", "+");
+    inc.type = "button"; inc.dataset.act = "inc"; inc.disabled = q >= 99;
+    inc.setAttribute("aria-label", "Add one " + name);
+    dec.addEventListener("click", function () { change(q - 1, q - 1 <= 0 ? "add" : "dec"); });
+    inc.addEventListener("click", function () { change(q + 1, "inc"); });
+    w.appendChild(dec); w.appendChild(n); w.appendChild(inc);
+    return w;
+  }
+
+  function buildCtl(wrap, m, focusAct) {
+    wrap.innerHTML = "";
+    var q = cartQty[m.id] || 0;
+    if (!q) {
+      var b = el("button", "add-btn", "Add to cart");
+      b.type = "button"; b.dataset.act = "add";
+      b.setAttribute("aria-label", "Add " + m.name + " to cart");
+      b.addEventListener("click", function () { setQty(m.id, 1, "inc", "menu"); });
+      wrap.appendChild(b);
+    } else {
+      wrap.appendChild(stepper(m.name, q, function (n, act) { setQty(m.id, n, act, "menu"); }));
+    }
+    if (focusAct) {
+      var t = wrap.querySelector('[data-act="' + focusAct + '"]') || wrap.querySelector("button");
+      if (t) t.focus();
+    }
+  }
+
+  function setQty(id, q, act, from) {
+    q = Math.max(0, Math.min(99, Math.round(q)));
+    if (q) cartQty[id] = q;
+    else { delete cartQty[id]; if (itemNotes[id]) { delete itemNotes[id]; persistNotes(); } }
+    persistCart();
+    var m = menuItem(id);
+    if (m && ctlNodes[id]) buildCtl(ctlNodes[id], m, from === "menu" ? act : "");
+    renderCartBadges();
+    if (!cartEl.hidden) renderCart(from === "drawer" ? { id: id, act: act } : null);
+  }
+
+  function renderCartBadges() {
+    var n = cartCount();
+    document.querySelectorAll("[data-cart-count]").forEach(function (x) { x.textContent = String(n); x.hidden = !n; });
+    $("cart-float").setAttribute("aria-label", "Open your cart, " + n + (n === 1 ? " item" : " items"));
+  }
+
+  function fmtDate(iso) {
+    try {
+      return new Date(iso + "T00:00:00").toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    } catch (e) { return iso; }
+  }
+  function orderText() {
+    var lines = cartLines(), t = ["Hello Zav, I'd like to order:", ""];
+    lines.forEach(function (l) {
+      t.push(l.q + " × " + l.m.name + " (" + rupiah(l.q * l.m.price) + ")");
+      var n = (itemNotes[l.m.id] || "").trim();
+      if (n) t.push("   Note: " + n);
+    });
+    t.push("", "Total: " + rupiah(cartTotal()), "", "Name: " + cartForm.name.trim());
+    if (cartForm.date) t.push("Pick-up date: " + fmtDate(cartForm.date));
+    if (cartForm.note.trim()) t.push("Notes: " + cartForm.note.trim());
+    var pay = selectedPay();
+    if (pay === "bank") t.push("", "Payment: bank transfer to " + site.info.bankName.trim() + " " + site.info.bankNumber.trim(), "I'll send my payment proof in this chat.");
+    else if (pay === "qris") t.push("", "Payment: QRIS", "I'll send my payment proof in this chat.");
+    return t.join("\n");
+  }
+  function cartReady() { return cartLines().length > 0 && cartForm.name.trim().length > 0; }
+  function updateSend() {
+    var ready = cartReady();
+    cartSend.href = ready ? waLink(orderText()) : "#order";
+    cartSend.setAttribute("aria-disabled", ready ? "false" : "true");
+    var pb = document.getElementById("cart-pdf");
+    if (pb) pb.setAttribute("aria-disabled", ready ? "false" : "true");
+  }
+
+  function renderCart(focus) {
+    var lines = cartLines();
+    cartList.innerHTML = "";
+    $("cart-empty").hidden = lines.length > 0;
+    $("cart-checkout").hidden = !lines.length;
+    $("cart-foot").hidden = !lines.length;
+    lines.forEach(function (l) {
+      var li = el("li", "cart-row");
+      li.dataset.id = l.m.id;
+      var main = el("div", "cr-main");
+      main.appendChild(el("strong", "", l.m.name));
+      main.appendChild(el("span", "cr-unit", rupiah(l.m.price) + " each"));
+      if (l.m.note) main.appendChild(el("span", "cr-note", l.m.note));
+      li.appendChild(main);
+      li.appendChild(el("span", "cr-total", rupiah(l.q * l.m.price)));
+      var ctl = el("div", "cr-ctl");
+      ctl.appendChild(stepper(l.m.name, l.q, function (n, act) { setQty(l.m.id, n, act, "drawer"); }));
+      var rm = el("button", "link-btn", "Remove");
+      rm.type = "button";
+      rm.setAttribute("aria-label", "Remove " + l.m.name + " from cart");
+      rm.addEventListener("click", function () { setQty(l.m.id, 0, "rm", "drawer"); });
+      ctl.appendChild(rm);
+      li.appendChild(ctl);
+      var nf = el("div", "fld cr-notefld");
+      var nid = "cn-" + l.m.id;
+      var nl = el("label", "caps", "Note for this item");
+      nl.htmlFor = nid;
+      var ni = document.createElement("input");
+      ni.type = "text"; ni.id = nid; ni.maxLength = 140;
+      ni.placeholder = "For example: sliced, no nuts, a message on the cake";
+      ni.value = itemNotes[l.m.id] || "";
+      ni.addEventListener("input", function () {
+        if (ni.value.trim()) itemNotes[l.m.id] = ni.value; else delete itemNotes[l.m.id];
+        persistNotes(); updateSend(); cartMsg.textContent = "";
+      });
+      nf.appendChild(nl); nf.appendChild(ni);
+      li.appendChild(nf);
+      cartList.appendChild(li);
+    });
+    $("cart-total").textContent = rupiah(cartTotal());
+    var hint = [];
+    if (site.info.reserveBy) hint.push("Reserve by " + site.info.reserveBy + ".");
+    if (site.info.cakeLead) hint.push("Custom cakes: " + site.info.cakeLead + ".");
+    $("cart-hint").textContent = hint.join(" ");
+    renderPay();
+    updateSend();
+    if (focus) {
+      var t = cartList.querySelector('[data-id="' + focus.id + '"] [data-act="' + focus.act + '"]') || cartList.querySelector('[data-act="inc"]') || $("cart-close");
+      t.focus();
+    }
+  }
+
+  /* ---------- payment: manual bank transfer and QRIS ---------- */
+  function payMethods() {
+    var i = site.info, m = [];
+    if (i.bankName.trim() && i.bankNumber.trim()) m.push("bank");
+    if (/^[0-9a-f]{32}$/.test(i.qris)) m.push("qris");
+    return m;
+  }
+  function selectedPay() {
+    var ms = payMethods();
+    return ms.indexOf(cartForm.pay) >= 0 ? cartForm.pay : (ms[0] || "");
+  }
+  function copyText(btn, text) {
+    var base = btn.textContent;
+    function done(m) { btn.textContent = m; setTimeout(function () { btn.textContent = base; }, 1500); }
+    try { navigator.clipboard.writeText(text).then(function () { done("Copied"); }, function () { done("Copy by hand"); }); }
+    catch (e) { done("Copy by hand"); }
+  }
+  function payRow(label, value, copyValue, copyLabel) {
+    var r = el("div", "pay-row");
+    var left = el("div");
+    left.appendChild(el("span", "caps", label));
+    left.appendChild(el("div", "v", value));
+    r.appendChild(left);
+    if (copyValue) {
+      var b = el("button", "link-btn", "Copy");
+      b.type = "button";
+      b.setAttribute("aria-label", copyLabel);
+      b.addEventListener("click", function () { copyText(b, copyValue); });
+      r.appendChild(b);
+    }
+    return r;
+  }
+  function renderPayDetail() {
+    var d = $("pay-detail"), cur = selectedPay(), total = cartTotal();
+    d.innerHTML = "";
+    if (!cur) return;
+    var box = el("div", "pay-box");
+    if (cur === "bank") {
+      box.appendChild(payRow("Amount to transfer", rupiah(total), String(total), "Copy the amount"));
+      box.appendChild(payRow("Bank", site.info.bankName.trim()));
+      box.appendChild(payRow("Account number", site.info.bankNumber.trim(), site.info.bankNumber.replace(/\s+/g, ""), "Copy the account number"));
+      if (site.info.bankHolder.trim()) box.appendChild(payRow("Account name", site.info.bankHolder.trim()));
+    } else {
+      var img = document.createElement("img");
+      img.className = "qris"; img.alt = "QRIS code to pay " + rupiah(total); img.src = "/_blob/" + site.info.qris;
+      var fallback = el("p", "hint", "The QRIS image could not be loaded. Choose bank transfer, or ask Zav on WhatsApp.");
+      fallback.hidden = true;
+      img.addEventListener("error", function () { img.hidden = true; fallback.hidden = false; });
+      box.appendChild(img);
+      box.appendChild(fallback);
+      box.appendChild(payRow("Amount to pay", rupiah(total), String(total), "Copy the amount"));
+      box.appendChild(el("p", "hint", "Scan with any banking or e-wallet app and enter this amount."));
+    }
+    if (site.info.payNote.trim()) box.appendChild(el("p", "hint", site.info.payNote.trim()));
+    d.appendChild(box);
+  }
+  function renderPay() {
+    var ms = payMethods(), fs = $("cart-pay"), opts = $("pay-opts");
+    fs.hidden = !ms.length;
+    $("cart-paynote").textContent = ms.length
+      ? "Your payment goes straight to Zav, not through this page. After paying, send the order and attach your payment proof in the WhatsApp chat so Zav can confirm."
+      : "No payment is taken on this page. Zav confirms your order and the total on WhatsApp.";
+    opts.innerHTML = "";
+    if (!ms.length) { $("pay-detail").innerHTML = ""; return; }
+    var cur = selectedPay();
+    ms.forEach(function (k) {
+      var l = el("label", "pay-opt");
+      var r = document.createElement("input");
+      r.type = "radio"; r.name = "pay"; r.value = k; r.checked = k === cur;
+      r.addEventListener("change", function () { cartForm.pay = k; persistForm(); renderPayDetail(); updateSend(); });
+      l.appendChild(r);
+      l.appendChild(el("span", "", k === "bank" ? "Bank transfer" : "QRIS"));
+      opts.appendChild(l);
+    });
+    renderPayDetail();
+  }
+
+  function openCart(opener) {
+    lastCartFocus = opener || null;
+    cartMsg.textContent = "";
+    renderCart(null);
+    cartOverlay.hidden = false; cartEl.hidden = false;
+    document.body.classList.add("cart-open");
+    $("cart-close").focus();
+  }
+  function closeCart(restore) {
+    if (cartEl.hidden) return;
+    cartEl.hidden = true; cartOverlay.hidden = true;
+    document.body.classList.remove("cart-open");
+    if (restore !== false && lastCartFocus) lastCartFocus.focus();
+  }
+  $("cart-float").addEventListener("click", function () { openCart(this); });
+  $("nav-cart").addEventListener("click", function () { openCart(this); });
+  $("cart-close").addEventListener("click", function () { closeCart(); });
+  cartOverlay.addEventListener("click", function () { closeCart(); });
+  $("cart-browse").addEventListener("click", function () { closeCart(false); location.hash = "#menu"; });
+  document.addEventListener("keydown", function (e) {
+    if (cartEl.hidden) return;
+    if (e.key === "Escape") { closeCart(); return; }
+    if (e.key !== "Tab") return;
+    var f = Array.prototype.filter.call(cartEl.querySelectorAll("button, a[href], input, textarea"), function (n) {
+      return !n.disabled && n.offsetParent !== null;
+    });
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  $("cart-name").addEventListener("input", function () { cartForm.name = this.value; persistForm(); updateSend(); cartMsg.textContent = ""; });
+  $("cart-date").addEventListener("input", function () { cartForm.date = this.value; persistForm(); updateSend(); });
+  $("cart-note").addEventListener("input", function () { cartForm.note = this.value; persistForm(); updateSend(); });
+  cartSend.addEventListener("click", function (e) {
+    if (!cartReady()) {
+      e.preventDefault();
+      cartMsg.textContent = "Add your name so Zav knows who the order is for.";
+      $("cart-name").focus();
+    } else {
+      cartMsg.textContent = "Opening WhatsApp. Zav will confirm your order and the total there.";
+    }
+  });
+  arm($("cart-clear"), "Press again to clear", function () {
+    cartQty = {}; persistCart(); itemNotes = {}; persistNotes();
+    site.menu.forEach(function (m) { if (ctlNodes[m.id]) buildCtl(ctlNodes[m.id], m, ""); });
+    renderCartBadges(); renderCart(null);
+    $("cart-close").focus();
+  });
+  /* ---------- PDF invoice ---------- */
+  function blobToDataUrl(url) {
+    // fetch the image and re-encode it as a JPEG on white, which is what the PDF writer embeds
+    return fetch(url).then(function (r) { if (!r.ok) throw 0; return r.blob(); }).then(function (b) {
+      return new Promise(function (res, rej) {
+        var u = URL.createObjectURL(b), im = new Image();
+        im.onload = function () {
+          var c = document.createElement("canvas"), s = Math.min(1, 900 / Math.max(im.naturalWidth, im.naturalHeight));
+          c.width = Math.max(1, Math.round(im.naturalWidth * s)); c.height = Math.max(1, Math.round(im.naturalHeight * s));
+          var g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, c.width, c.height); g.drawImage(im, 0, 0, c.width, c.height);
+          URL.revokeObjectURL(u); res(c.toDataURL("image/jpeg", 0.92));
+        };
+        im.onerror = function () { URL.revokeObjectURL(u); rej(0); };
+        im.src = u;
+      });
+    });
+  }
+  function buildInvoice(qrisData) {
+    var J = window.jspdf && window.jspdf.jsPDF;
+    if (!J) return null;
+    var doc = new J({ unit: "mm", format: "a4" });
+    var W = 210, M = 18, y = 0, i = site.info;
+    var now = new Date(), pad = function (n) { return (n < 10 ? "0" : "") + n; };
+    var ymd = now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate());
+    var no = "INV-" + ymd + "-" + pad(now.getHours()) + pad(now.getMinutes());
+    var issued = now.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+    function rgb(h) { return [parseInt(h.substr(1, 2), 16), parseInt(h.substr(3, 2), 16), parseInt(h.substr(5, 2), 16)]; }
+    function fill(h) { var c = rgb(h); doc.setFillColor(c[0], c[1], c[2]); }
+    function ink(h) { var c = rgb(h); doc.setTextColor(c[0], c[1], c[2]); }
+    function draw(h) { var c = rgb(h); doc.setDrawColor(c[0], c[1], c[2]); }
+    var GREEN = "#0E1713", GOLD = "#B8962E", TEXT = "#222222", MUTE = "#6b6b6b";
+
+    fill(GREEN); doc.rect(0, 0, W, 38, "F");
+    ink("#D4AF37"); doc.setFont("times", "bolditalic"); doc.setFontSize(26);
+    doc.text("Baked By Zav", M, 20);
+    doc.setFont("helvetica", "normal"); doc.setFontSize(8.5); ink("#d9d4c3");
+    doc.text((i.eyebrow || "Artisan bakery").toUpperCase(), M, 28);
+    doc.setFont("helvetica", "bold"); doc.setFontSize(20); ink("#D4AF37");
+    doc.text("INVOICE", W - M, 20, { align: "right" });
+    doc.setFont("helvetica", "normal"); doc.setFontSize(9); ink("#d9d4c3");
+    doc.text(no, W - M, 28, { align: "right" });
+
+    y = 50;
+    function label(t, x, yy) { doc.setFont("helvetica", "bold"); doc.setFontSize(7.5); ink(GOLD); doc.text(t.toUpperCase(), x, yy); }
+    function val(t, x, yy, w) {
+      doc.setFont("helvetica", "normal"); doc.setFontSize(10.5); ink(TEXT);
+      var ls = doc.splitTextToSize(t, w || 80); doc.text(ls, x, yy); return ls.length;
+    }
+    label("Billed to", M, y); var n1 = val(cartForm.name.trim(), M, y + 6, 80);
+    label("Issued", 112, y); val(issued, 112, y + 6, 80);
+    label("Pick-up date", 112, y + 15); val(cartForm.date ? fmtDate(cartForm.date) : "To be confirmed", 112, y + 21, 80);
+    if (i.pickup) { label("Pick-up place", M, y + 15); val(i.pickup, M, y + 21, 85); }
+    y += 36;
+
+    doc.setFont("helvetica", "bold"); doc.setFontSize(7.5); ink(GOLD);
+    fill("#f4efe0"); doc.rect(M, y - 5, W - 2 * M, 8, "F");
+    doc.text("ITEM", M + 3, y);
+    doc.text("PRICE", 118, y, { align: "right" });
+    doc.text("QTY", 135, y, { align: "center" });
+    doc.text("AMOUNT", W - M - 3, y, { align: "right" });
+    y += 9;
+
+    function page() { doc.addPage(); y = 22; }
+    cartLines().forEach(function (l) {
+      var note = (itemNotes[l.m.id] || "").trim();
+      var nameLs = doc.splitTextToSize(l.m.name, 80);
+      var noteLs = note ? doc.splitTextToSize("Note: " + note, 100) : [];
+      var h = nameLs.length * 5 + noteLs.length * 4.2 + 5;
+      if (y + h > 270) page();
+      doc.setFont("helvetica", "bold"); doc.setFontSize(10.5); ink(TEXT);
+      doc.text(nameLs, M + 3, y);
+      doc.setFont("helvetica", "normal");
+      doc.text(rupiah(l.m.price), 118, y, { align: "right" });
+      doc.text(String(l.q), 135, y, { align: "center" });
+      doc.text(rupiah(l.q * l.m.price), W - M - 3, y, { align: "right" });
+      var yy = y + (nameLs.length - 1) * 5;
+      if (noteLs.length) {
+        doc.setFont("helvetica", "italic"); doc.setFontSize(9); ink(MUTE);
+        doc.text(noteLs, M + 3, yy + 5);
+        yy += noteLs.length * 4.2;
+      }
+      y = yy + 4;
+      draw("#e3dcc6"); doc.setLineWidth(0.2); doc.line(M, y, W - M, y);
+      y += 6;
+    });
+
+    if (y > 250) page();
+    y += 2;
+    fill(GREEN); doc.rect(112, y - 6, W - M - 112, 12, "F");
+    doc.setFont("helvetica", "bold"); doc.setFontSize(9); ink("#D4AF37");
+    doc.text("TOTAL", 116, y + 1.6);
+    doc.setFontSize(13); doc.text(rupiah(cartTotal()), W - M - 4, y + 2, { align: "right" });
+    y += 18;
+
+    var pay = selectedPay();
+    if (cartForm.note.trim()) {
+      var nls = doc.splitTextToSize(cartForm.note.trim(), W - 2 * M);
+      if (y + 8 + nls.length * 5 > 275) page();
+      label("Notes for the whole order", M, y); doc.setFont("helvetica", "normal"); doc.setFontSize(10); ink(TEXT);
+      doc.text(nls, M, y + 6); y += 10 + nls.length * 5;
+    }
+    if (pay) {
+      var need = pay === "qris" && qrisData ? 62 : 36;
+      if (y + need > 278) page();
+      label("Payment", M, y); y += 6;
+      doc.setFont("helvetica", "normal"); doc.setFontSize(10); ink(TEXT);
+      if (pay === "bank") {
+        doc.text("Bank transfer", M, y);
+        doc.text(i.bankName.trim() + "  " + i.bankNumber.trim(), M, y + 6);
+        if (i.bankHolder.trim()) doc.text("a/n " + i.bankHolder.trim(), M, y + 12);
+        doc.text("Amount: " + rupiah(cartTotal()), M, y + 20);
+        y += 28;
+      } else {
+        doc.text("QRIS. Amount: " + rupiah(cartTotal()), M, y);
+        if (qrisData) { try { doc.addImage(qrisData, M, y + 4, 46, 46); } catch (e) {} y += 54; } else y += 8;
+      }
+      doc.setFontSize(9); ink(MUTE);
+      doc.text("Please send your payment proof in the WhatsApp chat.", M, y);
+    }
+
+    var pages = doc.getNumberOfPages();
+    for (var p = 1; p <= pages; p++) {
+      doc.setPage(p);
+      draw("#e3dcc6"); doc.line(M, 284, W - M, 284);
+      doc.setFont("helvetica", "normal"); doc.setFontSize(8); ink(MUTE);
+      doc.text("Baked By Zav" + (i.whatsapp ? "  ·  WhatsApp " + i.whatsapp : "") + (i.instagram ? "  ·  @" + i.instagram.replace(/^@/, "") : ""), M, 289);
+      doc.text(pages > 1 ? p + " / " + pages : (i.footer || ""), W - M, 289, { align: "right" });
+    }
+    return { doc: doc, name: no + "-" + cartForm.name.trim().replace(/[^A-Za-z0-9]+/g, "-").replace(/^-|-$/g, "") + ".pdf" };
+  }
+  var pdfBtn = $("cart-pdf");
+  pdfBtn.addEventListener("click", function () {
+    if (!cartReady()) {
+      cartMsg.textContent = "Add your name so Zav knows who the invoice is for.";
+      $("cart-name").focus(); return;
+    }
+    if (!(window.jspdf && window.jspdf.jsPDF)) { cartMsg.textContent = "The PDF tool could not load. Check your connection and try again."; return; }
+    pdfBtn.disabled = true; cartMsg.textContent = "Preparing your invoice…";
+    var q = selectedPay() === "qris" ? blobToDataUrl("/_blob/" + site.info.qris).catch(function () { return null; }) : Promise.resolve(null);
+    q.then(function (qd) {
+      var r = buildInvoice(qd);
+      var buf = r.doc.output("arraybuffer");
+      var useCap = window.claude && window.claude.use ? window.claude.use("downloads").catch(function () { return null; }) : Promise.resolve(null);
+      return useCap.then(function (dl) {
+        if (dl) return dl.save({ filename: r.name, data: buf }).then(function () { cartMsg.textContent = "Invoice saved. Attach it in the WhatsApp chat with your order."; });
+        r.doc.save(r.name); cartMsg.textContent = "Invoice downloaded. Attach it in the WhatsApp chat with your order.";
+      });
+    }).catch(function (e) {
+      cartMsg.textContent = e && e.code === "declined" ? "" : "Could not create the invoice. Please try again.";
+    }).then(function () { pdfBtn.disabled = false; });
+  });
+
+  loadCart();
+
+  /* ---------- start ---------- */
+  renderSite();
+
+  try {
+    fetch("site.json", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d) return;
+        site = normalize(d); renderSite();
+        if (!dirty) { draft = null; if (!admin.hidden) openAdmin(); }
+      })
+      .catch(function () {});
+  } catch (e) {}
+
+  if (window.claude && typeof window.claude.use === "function") {
+    Promise.all([window.claude.use("assets"), window.claude.use("artifact")]).then(function (r) {
+      if (r[0] && r[1]) { assetsApi = r[0]; artifactApi = r[1]; canEdit = true; $("nav-admin").hidden = false; route(); }
+    }).catch(function () {});
+  }
+})();
+</script>
