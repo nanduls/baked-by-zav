@@ -17,21 +17,16 @@ The Cloudflare version is one Worker (`worker/index.js`) that serves the static 
 
 Menu edits, photos, bank details, QRIS and orders are stored in Cloudflare KV, not in this repository. `data/site.json` is only the starting content, with bank details left blank.
 
-One-time setup:
+One-time setup. `wrangler.jsonc` declares the KV binding `ZAV` without an id, so Wrangler (4.45 or newer) creates the namespace on the first deploy and reuses it afterwards. Set the owner password, then deploy:
 
 ```
-npm install -g wrangler        # or use npx wrangler
 npx wrangler login
-npx wrangler kv namespace create ZAV
-```
-
-Paste the `id` it prints into `wrangler.jsonc` (replace `REPLACE_WITH_YOUR_KV_NAMESPACE_ID`). Then set the owner password and deploy:
-
-```
 npx wrangler secret put ADMIN_PASSWORD
 python3 build.py
 npx wrangler deploy
 ```
+
+If your Wrangler cannot create the namespace by itself, create it by hand (Cloudflare dashboard, Storage and databases, KV, Create, name it ZAV, or `npx wrangler kv namespace create ZAV`) and change the binding to `{ "binding": "ZAV", "id": "<the id it shows>" }`.
 
 If you connect the repository to Cloudflare for automatic builds, use Workers Builds (not Pages) with build command `python3 build.py` and deploy command `npx wrangler deploy`, and add `ADMIN_PASSWORD` under the Worker's Variables and Secrets.
 
